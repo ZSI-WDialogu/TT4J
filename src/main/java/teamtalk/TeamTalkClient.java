@@ -4,6 +4,8 @@ import teamtalk.enums.APINetworkPacketType;
 import teamtalk.enums.UserType;
 import teamtalk.interfaces.APIConnection;
 import teamtalk.packets.APINetworkPacket;
+import teamtalk.packets.ErrorPacket;
+import teamtalk.packets.HandshakePacket;
 import teamtalk.packets.UserData;
 
 import java.util.*;
@@ -11,25 +13,22 @@ import java.util.function.Consumer;
 
 
 public class TeamTalkClient {
-    // Server info
-    private String serverName;
-    private int maxUsers;
-    private int maxiplogins;
-    private int userTimeOut=60;
-    private String protocol;
 
+    private HandshakePacket serverInfo;
     private List<UserData> users;
     private List<Object> channels;
     private APIConnection connection;
 
     private Event<UserData> onUserAdded = new Event<>();
+    private Event<HandshakePacket> onHandShakePacket = new Event<>();
+    private Event<ErrorPacket> onErrorPacket = new Event<>();
     private Map<APINetworkPacketType, Consumer<APINetworkPacket>> packetHandlers;
 
     public TeamTalkClient(APIConnection connection){
         this.connection = connection;
         this.connection.onPacketReceived(this::handlePacket);
         this.users = new ArrayList<>();
-        this.onUserAdded = new Event<>();
+        initialiseEvents();
         initialiseHandlers();
     }
 
@@ -45,6 +44,8 @@ public class TeamTalkClient {
     private void initialiseHandlers() {
         packetHandlers = new HashMap<>();
         packetHandlers.put(APINetworkPacketType.USER_ACCOUNT, this::handleUserDataPacket);
+        packetHandlers.put(APINetworkPacketType.ERROR, this::handleErrorPacket);
+        packetHandlers.put(APINetworkPacketType.HANDSHAKE, this::handleHandShakePacket);
     }
     private void handlePacket(APINetworkPacket packet){
         Consumer<APINetworkPacket> handler = packetHandlers.getOrDefault(packet.getType(), null);
@@ -58,6 +59,39 @@ public class TeamTalkClient {
             users.add(data);
             onUserAdded.invoke(data);
         }
+    }
+    private void handleErrorPacket(APINetworkPacket packet){
+        ErrorPacket error = (ErrorPacket) packet;
+        if(error!=null){
+            onErrorPacket.invoke(error);
+        }
+    }
+    private void handleHandShakePacket(APINetworkPacket packet){
+        HandshakePacket handShake = (HandshakePacket) packet;
+        if(handShake!=null){
+            serverInfo = handShake;
+            onHandShakePacket.invoke(handShake);
+        }
+    }
+
+    // EVENTS
+    private void initialiseEvents() {
+        this.onUserAdded = new Event<>();
+        this.onErrorPacket = new Event<>();
+        this.onHandShakePacket = new Event<>();
+    }
+
+    // REGISTER FOR EVENTS
+    public void registerForHandShakePacket(Consumer<HandshakePacket> consumer){
+        this.onHandShakePacket.register(consumer);
+    }
+
+    public void registerForErrorPacket(Consumer<ErrorPacket> consumer){
+        this.onErrorPacket.register(consumer);
+    }
+
+    public void registerForHandShake(Consumer<HandshakePacket> consumer){
+        this.onHandShakePacket.register(consumer);
     }
 
     // USER COMMAND REGIONS

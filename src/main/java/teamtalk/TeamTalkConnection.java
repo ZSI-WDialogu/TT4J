@@ -123,6 +123,7 @@ public class TeamTalkConnection implements APIConnection {
                     default:
                         try {
 
+                            System.out.println(rawPacket);
                             APINetworkPacket packet = deserializer.deserialize(rawPacket);
                             packetReceived.invoke(packet);
 

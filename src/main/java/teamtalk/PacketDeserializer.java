@@ -8,11 +8,7 @@ import teamtalk.packets.APINetworkPacket;
 import teamtalk.packets.RawPacket;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import static org.reflections.ReflectionUtils.*;
 
-import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -41,7 +37,7 @@ public class PacketDeserializer {
         for(Class<? extends APINetworkPacket> packet: packets){
             try {
 
-                APINetworkPacketType type =  packet.newInstance().getType();
+                APINetworkPacketType type =  packet.newInstance().getPacketType();
                 classes.put(type, packet);
 
             } catch (InstantiationException | IllegalAccessException  e) {
@@ -64,7 +60,7 @@ public class PacketDeserializer {
         try {
             p = mapper.readValue(serializedPacket, classes.get(type));
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new InvalidArgumentException(new String[]{"Cannot deserialize"});
         }
         return p;
     }

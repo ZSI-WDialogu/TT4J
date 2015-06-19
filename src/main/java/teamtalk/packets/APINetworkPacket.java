@@ -7,13 +7,13 @@ import teamtalk.enums.APINetworkPacketType;
  */
 public class APINetworkPacket {
 
-    private APINetworkPacketType type;
+    private APINetworkPacketType packetType;
 
     public APINetworkPacket(APINetworkPacketType type){
-        this.type = type;
+        this.packetType = type;
     }
 
-    public APINetworkPacketType getType() {
-        return type;
+    public APINetworkPacketType getPacketType() {
+        return packetType;
     }
 }

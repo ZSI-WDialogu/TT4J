@@ -1,7 +1,6 @@
 package teamtalk;
 
 import teamtalk.enums.APINetworkPacketType;
-import teamtalk.enums.UserType;
 import teamtalk.interfaces.APIConnection;
 import teamtalk.packets.*;
 
@@ -20,6 +19,7 @@ public class TeamTalkClient {
     private Event<HandshakePacket> onHandShakePacket = new Event<>();
     private Event<ErrorPacket> onErrorPacket = new Event<>();
     private Event<AcceptedPacket> onAcceptedPacket = new Event<>();
+    private Event<ServerUpdatePacket> onServerUpdatePacket = new Event<>();
     private Map<APINetworkPacketType, Consumer<APINetworkPacket>> packetHandlers;
 
     public TeamTalkClient(APIConnection connection){
@@ -45,9 +45,11 @@ public class TeamTalkClient {
         packetHandlers.put(APINetworkPacketType.ERROR, this::handleErrorPacket);
         packetHandlers.put(APINetworkPacketType.HANDSHAKE, this::handleHandShakePacket);
         packetHandlers.put(APINetworkPacketType.ACCEPTED, this::handleAcceptedPacket);
+        packetHandlers.put(APINetworkPacketType.SERVER_UPDATE, this::handleServerUpdatePacket);
     }
+
     private void handlePacket(APINetworkPacket packet){
-        Consumer<APINetworkPacket> handler = packetHandlers.getOrDefault(packet.getType(), null);
+        Consumer<APINetworkPacket> handler = packetHandlers.getOrDefault(packet.getPacketType(), null);
         if(handler!=null){
             handler.accept(packet);
         }
@@ -78,6 +80,12 @@ public class TeamTalkClient {
             onAcceptedPacket.invoke(p);
         }
     }
+    private void handleServerUpdatePacket(APINetworkPacket packet){
+        ServerUpdatePacket p = (ServerUpdatePacket) packet;
+        if(p!=null){
+            onServerUpdatePacket.invoke(p);
+        }
+    }
 
     // EVENTS
     private void initialiseEvents() {
@@ -85,6 +93,7 @@ public class TeamTalkClient {
         this.onErrorPacket = new Event<>();
         this.onHandShakePacket = new Event<>();
         this.onAcceptedPacket = new Event<>();
+        this.onServerUpdatePacket = new Event<>();
     }
 
     // REGISTER FOR EVENTS

@@ -124,6 +124,7 @@ public class TeamTalkConnection implements APIConnection {
                         try {
 
                             System.out.println(rawPacket);
+                            System.out.println(fromServer);
                             APINetworkPacket packet = deserializer.deserialize(rawPacket);
                             packetReceived.invoke(packet);
 

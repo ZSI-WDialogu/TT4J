@@ -9,7 +9,7 @@ public enum APINetworkPacketType {
     END("end"),
     ACCEPTED("accepted"),
     SERVER_UPDATE("serverupdate"),
-    ADD_CHANEL("addchannel"),
+    ADD_CHANNEL("addchannel"),
     LOGGED_IN("loggedin"),
     ADD_USER("adduser"),
     OK("ok"),

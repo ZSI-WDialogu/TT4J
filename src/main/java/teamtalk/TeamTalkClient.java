@@ -3,10 +3,7 @@ package teamtalk;
 import teamtalk.enums.APINetworkPacketType;
 import teamtalk.enums.UserType;
 import teamtalk.interfaces.APIConnection;
-import teamtalk.packets.APINetworkPacket;
-import teamtalk.packets.ErrorPacket;
-import teamtalk.packets.HandshakePacket;
-import teamtalk.packets.UserData;
+import teamtalk.packets.*;
 
 import java.util.*;
 import java.util.function.Consumer;
@@ -22,6 +19,7 @@ public class TeamTalkClient {
     private Event<UserData> onUserAdded = new Event<>();
     private Event<HandshakePacket> onHandShakePacket = new Event<>();
     private Event<ErrorPacket> onErrorPacket = new Event<>();
+    private Event<AcceptedPacket> onAcceptedPacket = new Event<>();
     private Map<APINetworkPacketType, Consumer<APINetworkPacket>> packetHandlers;
 
     public TeamTalkClient(APIConnection connection){
@@ -46,6 +44,7 @@ public class TeamTalkClient {
         packetHandlers.put(APINetworkPacketType.USER_ACCOUNT, this::handleUserDataPacket);
         packetHandlers.put(APINetworkPacketType.ERROR, this::handleErrorPacket);
         packetHandlers.put(APINetworkPacketType.HANDSHAKE, this::handleHandShakePacket);
+        packetHandlers.put(APINetworkPacketType.ACCEPTED, this::handleAcceptedPacket);
     }
     private void handlePacket(APINetworkPacket packet){
         Consumer<APINetworkPacket> handler = packetHandlers.getOrDefault(packet.getType(), null);
@@ -73,12 +72,19 @@ public class TeamTalkClient {
             onHandShakePacket.invoke(handShake);
         }
     }
+    private void handleAcceptedPacket(APINetworkPacket packet){
+        AcceptedPacket p = (AcceptedPacket) packet;
+        if(p!=null){
+            onAcceptedPacket.invoke(p);
+        }
+    }
 
     // EVENTS
     private void initialiseEvents() {
         this.onUserAdded = new Event<>();
         this.onErrorPacket = new Event<>();
         this.onHandShakePacket = new Event<>();
+        this.onAcceptedPacket = new Event<>();
     }
 
     // REGISTER FOR EVENTS
@@ -92,6 +98,10 @@ public class TeamTalkClient {
 
     public void registerForHandShake(Consumer<HandshakePacket> consumer){
         this.onHandShakePacket.register(consumer);
+    }
+
+    public void registerForAccepted(Consumer<AcceptedPacket> consumer){
+        this.onAcceptedPacket.register(consumer);
     }
 
     // USER COMMAND REGIONS

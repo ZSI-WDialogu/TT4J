@@ -11,6 +11,6 @@ import java.util.function.Consumer;
 public interface APIConnection {
     boolean connect();
     void disconnect();
-    void onPacketReceived(Consumer<APINetworkPacket> consmer);
+    void onPacketReceived(Consumer<APINetworkPacket> consumer);
     boolean sendCommand(String command) throws NotYetConnectedException;
 }

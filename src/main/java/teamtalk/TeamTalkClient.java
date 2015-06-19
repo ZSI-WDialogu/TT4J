@@ -4,11 +4,10 @@ import teamtalk.enums.APINetworkPacketType;
 import teamtalk.enums.UserType;
 import teamtalk.interfaces.APIConnection;
 import teamtalk.packets.APINetworkPacket;
-import teamtalk.packets.RawPacket;
 import teamtalk.packets.UserData;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.function.Consumer;
 
 
 public class TeamTalkClient {
@@ -19,43 +18,49 @@ public class TeamTalkClient {
     private int userTimeOut=60;
     private String protocol;
 
-    private List<Object> users;
+    private List<UserData> users;
     private List<Object> channels;
     private APIConnection connection;
 
-    private Event<UserData> userAccountData = new Event<>();
+    private Event<UserData> onUserAdded = new Event<>();
+    private Map<APINetworkPacketType, Consumer<APINetworkPacket>> packetHandlers;
 
     public TeamTalkClient(APIConnection connection){
         this.connection = connection;
         this.connection.onPacketReceived(this::handlePacket);
-        this.userAccountData.register(this::addUser);
+        this.users = new ArrayList<>();
+        this.onUserAdded = new Event<>();
+        initialiseHandlers();
     }
 
+    // CONNECTION RELATED METHODS
+    public boolean connect(){
+        return connection.connect();
+    }
     public void close() {
         connection.disconnect();
     }
 
+    // PACKET HANDLING
+    private void initialiseHandlers() {
+        packetHandlers = new HashMap<>();
+        packetHandlers.put(APINetworkPacketType.USER_ACCOUNT, this::handleUserDataPacket);
+    }
     private void handlePacket(APINetworkPacket packet){
-        if(packet.getType()== APINetworkPacketType.USER_ACCOUNT) {
-            userAccountData.invoke((UserData) packet);
+        Consumer<APINetworkPacket> handler = packetHandlers.getOrDefault(packet.getType(), null);
+        if(handler!=null){
+            handler.accept(packet);
         }
-
-        System.out.println(packet);
     }
-
-    private void addUser(UserData packet){
-        if(users==null)
-            users = new ArrayList<>();
-
-        if(!users.contains(packet)) {
-            users.add(packet);
+    private void handleUserDataPacket(APINetworkPacket packet){
+        UserData data = (UserData) packet;
+        if(data != null && !users.contains(packet)) {
+            users.add(data);
+            onUserAdded.invoke(data);
         }
     }
 
-    public boolean connect(){
-        return connection.connect();
-    }
-
+    // USER COMMAND REGIONS
     public boolean login(String nick, String username, String password){
          return connection.sendCommand(String.format("login username=\"%s\" password=\"%s\" protocol=\"5.0\" nickname=\"%s\"", username, password, nick));
     }
@@ -64,28 +69,15 @@ public class TeamTalkClient {
         return connection.sendCommand(String.format("makechannel %s", channel));
     }
 
-    public boolean addUser(String userName, String password, UserType userType, String note, String initialChannel){
-        return connection.sendCommand(String.format("newaccount username=\"%s\" password=\"%s\" usertype=%s note=\"%s\" channel=\"%s\"",
-                userName, password, userType, note, initialChannel));
-    }
-
-    public List<Object> getUsers() {
-        return users;
-    }
-
-    public void setUsers(List<Object> users) {
-        this.users = users;
+    public boolean addUser(UserData user){
+        return connection.sendCommand(String.format("newaccount %s", user));
     }
 
     public List<Object> getChannels() {
         return channels;
     }
 
-    public void setChannels(List<Object> channels) {
-        this.channels = channels;
-    }
-
-    public List<Object> getAllUsers(){
+    public List<UserData> getAllUsersFromServer(){
         if(connection.sendCommand("listaccounts"))
             return users;
         else

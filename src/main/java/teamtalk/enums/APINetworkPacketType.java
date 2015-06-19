@@ -22,10 +22,6 @@ public enum APINetworkPacketType {
         this.text = text;
     }
 
-    public String getText() {
-        return this.text;
-    }
-
     public static APINetworkPacketType fromString(String text) {
         if (text != null) {
             for (APINetworkPacketType b : APINetworkPacketType.values()) {

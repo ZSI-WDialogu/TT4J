@@ -1,6 +1,8 @@
 package teamtalk;
 
+import teamtalk.enums.AudioCodec;
 import teamtalk.enums.UserType;
+import teamtalk.packets.UserData;
 
 public class Program {
 
@@ -15,16 +17,24 @@ public class Program {
             String password = "100KO";
             String nick = "Java Admin";
 
-            TeamTalkClient client = new TeamTalkClient(new TeamTalkConnection(hostName, portNumber));
+            TeamTalkClient client = new TeamTalkClient(
+                    new TeamTalkConnection(hostName, portNumber));
 
             System.out.println("Connecting: " + client.connect());
             System.out.println("Logging: " + client.login(nick, username, password));
 
-            client.addUser("New java user 2", "test123", UserType.DEFAULT, "Nothing to add", "1");
+            // How to create new user
+            client.addUser(
+                    new UserData("New java user 2", "123", UserType.DEFAULT, "new user", "1"));
+
+            // How to display all accounts
+            System.out.println("List accounts: ");
+            client.getAllUsersFromServer().forEach(System.out::println);
 
 
-            System.out.println("List accounts: " + client.getAllUsers());
-            //client.makeChannel(new Channel(1, true, "api channel 2", "123", "Java docs", AudioCodec.SpeexVBR));
-            //client.close();
+            // Hot to make new channel
+
+            client.makeChannel(new Channel(1, true, "api channel 3", "123", "Java docs", AudioCodec.SpeexVBR));
+            client.close();
 	}
 }

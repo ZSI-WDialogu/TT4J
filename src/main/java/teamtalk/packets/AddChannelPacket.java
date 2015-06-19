@@ -1,5 +1,8 @@
 package teamtalk.packets;
 
+import org.codehaus.jackson.annotate.JsonProperty;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import teamtalk.deserializers.AudioCodecDeserializer;
 import teamtalk.enums.APINetworkPacketType;
 import teamtalk.enums.AudioCodec;
 
@@ -14,6 +17,7 @@ public class AddChannelPacket extends APINetworkPacket{
     private String oppassword;
     private String password;
     private String topic;
+    private String name;
     private int chanid;
     private int parentid;
     private int maxusers;
@@ -24,6 +28,12 @@ public class AddChannelPacket extends APINetworkPacket{
     private int[] audiocfg;
     private int[]operators;
     private int userdata;
+
+    //Classroom data
+    private int[] voiceusers;
+    private int[] videousers;
+    private int[] desktopusers;
+    private int[] mediafileusers;
 
     public AddChannelPacket() {
         super(APINetworkPacketType.ADD_CHANNEL);
@@ -113,6 +123,7 @@ public class AddChannelPacket extends APINetworkPacket{
         return audiocodec;
     }
 
+    @JsonDeserialize(using = AudioCodecDeserializer.class)
     public void setAudiocodec(AudioCodec audiocodec) {
         this.audiocodec = audiocodec;
     }
@@ -139,5 +150,45 @@ public class AddChannelPacket extends APINetworkPacket{
 
     public void setUserdata(int userdata) {
         this.userdata = userdata;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int[] getVoiceusers() {
+        return voiceusers;
+    }
+
+    public void setVoiceusers(int[] voiceusers) {
+        this.voiceusers = voiceusers;
+    }
+
+    public int[] getVideousers() {
+        return videousers;
+    }
+
+    public void setVideousers(int[] videousers) {
+        this.videousers = videousers;
+    }
+
+    public int[] getDesktopusers() {
+        return desktopusers;
+    }
+
+    public void setDesktopusers(int[] desktopusers) {
+        this.desktopusers = desktopusers;
+    }
+
+    public int[] getMediafileusers() {
+        return mediafileusers;
+    }
+
+    public void setMediafileusers(int[] mediafileusers) {
+        this.mediafileusers = mediafileusers;
     }
 }

@@ -1,6 +1,7 @@
 package teamtalk.enums;
 
 import org.codehaus.jackson.annotate.JsonCreator;
+import org.codehaus.jackson.annotate.JsonValue;
 
 /**
  * Created by stokowiec on 2015-06-18.
@@ -37,4 +38,6 @@ public enum AudioCodec {
     }
 
 }
+
+
 

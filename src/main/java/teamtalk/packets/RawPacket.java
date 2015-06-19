@@ -46,7 +46,11 @@ public class RawPacket {
 
         List<String> builder = new ArrayList<>();
         for(String key: params.keySet()){
-            builder.add(String.format("\"%s\" : %s", key, params.get(key)));
+            if(key.equals("audiocodec")){
+                builder.add(String.format("\"%s\" : \"%s\"", key, params.get(key)));
+            } else {
+                builder.add(String.format("\"%s\" : %s", key, params.get(key)));
+            }
         }
 
         return String.format("{ %s }", String.join(",", builder));

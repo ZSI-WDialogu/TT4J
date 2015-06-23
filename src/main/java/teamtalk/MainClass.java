@@ -34,6 +34,9 @@ public class MainClass {
             client.addUser(
                 new UserData("New java user 3", "123", UserType.DEFAULT, "new user", "1"));
 
+            // How to send message: it can be used to update meeting agenda
+            client.sendMessage(1, "It's a me message!");
+
             // How to display all accounts
             System.out.println("List accounts: ");
             client.getAllUsersFromServer().forEach(System.out::println);
@@ -45,5 +48,7 @@ public class MainClass {
             // Hot to make new channel
             client.makeChannel(new Channel(1, true, "api channel 5", "123", "Java docs", AudioCodec.SpeexVBR));
             client.close();
+
+
 	}
 }

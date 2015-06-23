@@ -138,6 +138,10 @@ public class TeamTalkClient {
         return connection.sendCommand(String.format("makechannel %s", channel));
     }
 
+    public boolean sendMessage(int channelId, String message){
+        return connection.sendCommand( String.format("message type=2 content=\"%s\" chanid=%s", message, channelId));
+    }
+
     public boolean addUser(UserData user){
         return connection.sendCommand(String.format("newaccount %s", user));
     }

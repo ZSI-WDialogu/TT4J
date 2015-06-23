@@ -42,7 +42,7 @@ public class AddChannelPacket extends APINetworkPacket{
     @Override
     public String toString()
     {
-        return String.format("[%s] Channel: %s, name: %s topic: %s ", chanid, channel, name, topic );
+        return String.format("[ID %s] path: %s name: %s topic: %s ", chanid, channel, name, topic );
     }
 
     public int getProtected() {

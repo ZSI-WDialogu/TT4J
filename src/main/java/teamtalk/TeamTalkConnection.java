@@ -122,6 +122,7 @@ public class TeamTalkConnection implements APIConnection {
                             packetReceived.invoke(packet);
 
                         } catch (InvalidArgumentException e) {
+                            System.out.println(fromServer);
                             e.printStackTrace();
                         }
                 }

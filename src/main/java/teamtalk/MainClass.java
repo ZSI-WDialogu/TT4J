@@ -33,7 +33,6 @@ public class MainClass {
             // Register for logged user
             client.registerForAddUserPacker( packet -> System.out.println("User: " + packet));
 
-
             System.out.println("Connecting: " + client.connect());
             System.out.println("Logging: " + client.login(nick, username, password));
 
@@ -68,7 +67,6 @@ public class MainClass {
             // Hot to make new channel
             client.makeChannel(new Channel(1, true, "api channel 5", "123", "Java docs", AudioCodec.SpeexVBR));
             client.close();
-
 
 	}
 }

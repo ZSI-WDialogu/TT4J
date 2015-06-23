@@ -30,6 +30,11 @@ public class AddUserPacket extends APINetworkPacket {
         super(APINetworkPacketType.ADD_USER);
     }
 
+    @Override
+    public String toString(){
+        return String.format("Usernam: %s, Nickname %s, type: %s, channel: %s", username, nickname, usertype, chanid);
+    }
+
     public int getUserid() {
         return userid;
     }

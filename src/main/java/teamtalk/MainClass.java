@@ -21,10 +21,13 @@ public class MainClass {
                     new TeamTalkConnection(hostName, portNumber));
 
             // Register for channel updates
-            client.registerForAddChannel( packet ->  System.out.println("Event: " + packet.toString()));
+            client.registerForAddChannel( packet ->  System.out.println("Event: " + packet));
 
             // Register for errors
-            client.registerForErrorPacket(error -> System.out.println("Error: " + error.toString()));
+            client.registerForErrorPacket(error -> System.out.println("Error: " + error));
+
+            // Register for logged user
+            client.registerForAddUserPacker( packet -> System.out.println("User: " + packet));
 
 
             System.out.println("Connecting: " + client.connect());
@@ -35,7 +38,7 @@ public class MainClass {
                 new UserData("New java user 3", "123", UserType.DEFAULT, "new user", "1"));
 
             // How to send message: it can be used to update meeting agenda
-            client.sendMessage(1, "It's a me message!");
+            client.sendMessage(1, "It's a Me: a message!");
 
             // How to display all accounts
             System.out.println("List accounts: ");
@@ -44,6 +47,8 @@ public class MainClass {
             // Ho to display all channels
             System.out.println("List channels: ");
             client.getChannels().forEach(System.out::println);
+
+            // Ho to display logged account
 
             // Hot to make new channel
             client.makeChannel(new Channel(1, true, "api channel 5", "123", "Java docs", AudioCodec.SpeexVBR));

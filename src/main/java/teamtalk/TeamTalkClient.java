@@ -11,11 +11,13 @@ import java.util.function.Consumer;
 public class TeamTalkClient {
 
     private HandshakePacket serverInfo;
-    private List<UserData> users;
+    private List<UserData> allUsers;
+    private List<AddUserPacket> loggedUsers;
     private List<Object> channels;
     private APIConnection connection;
 
-    private Event<UserData> onUserAdded = new Event<>();
+    private Event<UserData> onUserPacket = new Event<>();
+    private Event<AddUserPacket> onAddUserPacket = new Event<>();
     private Event<AddChannelPacket> onAddChannelPacket = new Event<>();
     private Event<HandshakePacket> onHandShakePacket = new Event<>();
     private Event<ErrorPacket> onErrorPacket = new Event<>();
@@ -27,8 +29,9 @@ public class TeamTalkClient {
     public TeamTalkClient(APIConnection connection){
         this.connection = connection;
         this.connection.onPacketReceived(this::handlePacket);
-        this.users = new ArrayList<>();
+        this.allUsers = new ArrayList<>();
         this.channels = new ArrayList<>();
+        this.loggedUsers = new ArrayList<>();
         initialiseEvents();
         initialiseHandlers();
     }
@@ -45,6 +48,7 @@ public class TeamTalkClient {
     private void initialiseHandlers() {
         packetHandlers = new HashMap<>();
         packetHandlers.put(APINetworkPacketType.USER_ACCOUNT, this::handleUserDataPacket);
+        packetHandlers.put(APINetworkPacketType.ADD_USER, this::handleUserAdded);
         packetHandlers.put(APINetworkPacketType.ERROR, this::handleErrorPacket);
         packetHandlers.put(APINetworkPacketType.HANDSHAKE, this::handleHandShakePacket);
         packetHandlers.put(APINetworkPacketType.ACCEPTED, this::handleAcceptedPacket);
@@ -60,9 +64,9 @@ public class TeamTalkClient {
     }
     private void handleUserDataPacket(APINetworkPacket packet){
         UserData data = (UserData) packet;
-        if(data != null && !users.contains(packet)) {
-            users.add(data);
-            onUserAdded.invoke(data);
+        if(data != null && !allUsers.contains(packet)) {
+            allUsers.add(data);
+            onUserPacket.invoke(data);
         }
     }
     private void handleErrorPacket(APINetworkPacket packet){
@@ -98,10 +102,17 @@ public class TeamTalkClient {
         }
 
     }
+    private void handleUserAdded(APINetworkPacket packet) {
+        AddUserPacket p = (AddUserPacket) packet;
+        if(p!=null && !loggedUsers.contains(packet)){
+            loggedUsers.add(p);
+            onAddUserPacket.invoke(p);
+        }
+    }
 
     // EVENTS
     private void initialiseEvents() {
-        this.onUserAdded = new Event<>();
+        this.onUserPacket = new Event<>();
         this.onErrorPacket = new Event<>();
         this.onHandShakePacket = new Event<>();
         this.onAcceptedPacket = new Event<>();
@@ -129,6 +140,10 @@ public class TeamTalkClient {
         this.onAddChannelPacket.register(consumer);
     }
 
+    public void registerForAddUserPacker(Consumer<AddUserPacket> consumer){
+        this.onAddUserPacket.register(consumer);
+    }
+
     // USER COMMAND REGIONS
     public boolean login(String nick, String username, String password){
          return connection.sendCommand(String.format("login username=\"%s\" password=\"%s\" protocol=\"5.0\" nickname=\"%s\"", username, password, nick));
@@ -152,8 +167,16 @@ public class TeamTalkClient {
 
     public List<UserData> getAllUsersFromServer(){
         if(connection.sendCommand("listaccounts"))
-            return users;
+            return allUsers;
         else
             return null;
+    }
+
+    public List<AddUserPacket> getLoggedUsers(){
+        return loggedUsers;
+    }
+
+    public HandshakePacket getServerInfo() {
+        return serverInfo;
     }
 }

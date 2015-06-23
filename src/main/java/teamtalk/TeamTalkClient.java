@@ -16,16 +16,19 @@ public class TeamTalkClient {
     private APIConnection connection;
 
     private Event<UserData> onUserAdded = new Event<>();
+    private Event<AddChannelPacket> onAddChannelPacket = new Event<>();
     private Event<HandshakePacket> onHandShakePacket = new Event<>();
     private Event<ErrorPacket> onErrorPacket = new Event<>();
     private Event<AcceptedPacket> onAcceptedPacket = new Event<>();
     private Event<ServerUpdatePacket> onServerUpdatePacket = new Event<>();
+
     private Map<APINetworkPacketType, Consumer<APINetworkPacket>> packetHandlers;
 
     public TeamTalkClient(APIConnection connection){
         this.connection = connection;
         this.connection.onPacketReceived(this::handlePacket);
         this.users = new ArrayList<>();
+        this.channels = new ArrayList<>();
         initialiseEvents();
         initialiseHandlers();
     }
@@ -46,6 +49,7 @@ public class TeamTalkClient {
         packetHandlers.put(APINetworkPacketType.HANDSHAKE, this::handleHandShakePacket);
         packetHandlers.put(APINetworkPacketType.ACCEPTED, this::handleAcceptedPacket);
         packetHandlers.put(APINetworkPacketType.SERVER_UPDATE, this::handleServerUpdatePacket);
+        packetHandlers.put(APINetworkPacketType.ADD_CHANNEL, this::handleAddChannelPacket);
     }
 
     private void handlePacket(APINetworkPacket packet){
@@ -86,6 +90,14 @@ public class TeamTalkClient {
             onServerUpdatePacket.invoke(p);
         }
     }
+    private void handleAddChannelPacket(APINetworkPacket packet){
+        AddChannelPacket p = (AddChannelPacket) packet;
+        if(p!=null && !channels.contains(p)){
+            onAddChannelPacket.invoke(p);
+            channels.add(p);
+        }
+
+    }
 
     // EVENTS
     private void initialiseEvents() {
@@ -111,6 +123,10 @@ public class TeamTalkClient {
 
     public void registerForAccepted(Consumer<AcceptedPacket> consumer){
         this.onAcceptedPacket.register(consumer);
+    }
+
+    public void registerForAddChannel(Consumer<AddChannelPacket> consumer){
+        this.onAddChannelPacket.register(consumer);
     }
 
     // USER COMMAND REGIONS

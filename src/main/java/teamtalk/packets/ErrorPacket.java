@@ -14,6 +14,11 @@ public class ErrorPacket extends APINetworkPacket {
         super(APINetworkPacketType.ERROR);
     }
 
+    @Override
+    public String toString(){
+        return String.format("Error no: %s, %s", number, message);
+    }
+
     public int getNumber() {
         return number;
     }

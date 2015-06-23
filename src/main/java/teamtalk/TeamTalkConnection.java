@@ -21,9 +21,6 @@ import java.util.function.Consumer;
  */
 public class TeamTalkConnection implements APIConnection {
 
-
-    private static final int NTHREADS = 5;
-
     private String hostName;
     private int portNumber;
     private int cmdId;
@@ -34,8 +31,6 @@ public class TeamTalkConnection implements APIConnection {
 
     private Event<APINetworkPacket> packetReceived;
     private PacketDeserializer deserializer;
-
-    static Executor pool = Executors.newFixedThreadPool(NTHREADS);
 
     public TeamTalkConnection(String hostName, int portNumber) {
         this.hostName = hostName;

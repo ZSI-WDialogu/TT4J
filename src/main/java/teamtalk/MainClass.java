@@ -4,7 +4,7 @@ import teamtalk.enums.AudioCodec;
 import teamtalk.enums.UserType;
 import teamtalk.packets.UserData;
 
-public class Program {
+public class MainClass {
 
         public static void main(String[] args) {
 
@@ -20,21 +20,30 @@ public class Program {
             TeamTalkClient client = new TeamTalkClient(
                     new TeamTalkConnection(hostName, portNumber));
 
+            // Register for channel updates
+            client.registerForAddChannel( packet ->  System.out.println("Event: " + packet.toString()));
+
+            // Register for errors
+            client.registerForErrorPacket(error -> System.out.println("Error: " + error.toString()));
+
+
             System.out.println("Connecting: " + client.connect());
             System.out.println("Logging: " + client.login(nick, username, password));
 
             // How to create new user
             client.addUser(
-                    new UserData("New java user 2", "123", UserType.DEFAULT, "new user", "1"));
+                new UserData("New java user 3", "123", UserType.DEFAULT, "new user", "1"));
 
             // How to display all accounts
             System.out.println("List accounts: ");
             client.getAllUsersFromServer().forEach(System.out::println);
 
+            // Ho to display all channels
+            System.out.println("List channels: ");
+            client.getChannels().forEach(System.out::println);
 
             // Hot to make new channel
-
-            client.makeChannel(new Channel(1, true, "api channel 3", "123", "Java docs", AudioCodec.SpeexVBR));
+            client.makeChannel(new Channel(1, true, "api channel 5", "123", "Java docs", AudioCodec.SpeexVBR));
             client.close();
 	}
 }

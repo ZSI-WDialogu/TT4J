@@ -26,7 +26,7 @@ public class AddChannelPacket extends APINetworkPacket{
     private int isProtected;
     private AudioCodec audiocodec;
     private int[] audiocfg;
-    private int[]operators;
+    private int[] operators;
     private int userdata;
 
     //Classroom data
@@ -37,6 +37,12 @@ public class AddChannelPacket extends APINetworkPacket{
 
     public AddChannelPacket() {
         super(APINetworkPacketType.ADD_CHANNEL);
+    }
+
+    @Override
+    public String toString()
+    {
+        return String.format("[%s] Channel: %s, name: %s topic: %s ", chanid, channel, name, topic );
     }
 
     public int getProtected() {

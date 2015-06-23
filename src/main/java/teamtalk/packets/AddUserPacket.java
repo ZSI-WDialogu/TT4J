@@ -32,7 +32,7 @@ public class AddUserPacket extends APINetworkPacket {
 
     @Override
     public String toString(){
-        return String.format("Usernam: %s, Nickname %s, type: %s, channel: %s", username, nickname, usertype, chanid);
+        return String.format("[ID %s] user name: %s, nick name %s, type: %s, channel: %s", userid, username, nickname, usertype, chanid);
     }
 
     public int getUserid() {

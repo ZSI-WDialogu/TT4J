@@ -2,7 +2,11 @@ package teamtalk;
 
 import teamtalk.enums.AudioCodec;
 import teamtalk.enums.UserType;
+import teamtalk.packets.AddUserPacket;
 import teamtalk.packets.UserData;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainClass {
 
@@ -44,11 +48,22 @@ public class MainClass {
             System.out.println("List accounts: ");
             client.getAllUsersFromServer().forEach(System.out::println);
 
-            // Ho to display all channels
+            // How to display all channels
             System.out.println("List channels: ");
             client.getChannels().forEach(System.out::println);
 
-            // Ho to display logged account
+            // How to display logged account
+            System.out.println("List logged users: ");
+            client.getLoggedUsers().forEach(System.out::println);
+
+            // Move all users to one channel
+            System.out.println("Move users...");
+            List<AddUserPacket> list = new ArrayList(client.getLoggedUsers());
+            list.forEach(user -> System.out.println(client.moveUser(user.getUserid(), 2)));
+
+            // Check if users have been moved
+            System.out.println("List logged users: ");
+            client.getLoggedUsers().forEach(System.out::println);
 
             // Hot to make new channel
             client.makeChannel(new Channel(1, true, "api channel 5", "123", "Java docs", AudioCodec.SpeexVBR));

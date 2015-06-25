@@ -2,7 +2,7 @@
 
 ## Team Talk For Java.
 
-### Creating client instance
+### Creating a client instance
 ``` java
 // Server info
             String hostName = "xxx.xxx.xxx.xxx";
@@ -37,13 +37,13 @@
             System.out.println("Logging: " + client.login(nick, username, password));
 
 ```
-### Creating new user
+### Creating a new user
 ``` java
             // How to create new user
             client.addUser(
                 new UserData("New java user 3", "123", UserType.DEFAULT, "new user", "1"));
 ```
-### Sending message to channel
+### Sending message to a channel
 This can be used to send agenda updates from channel operator
 ``` java
             // How to send message: it can be used to update meeting agenda
@@ -82,7 +82,7 @@ This can be used to send agenda updates from channel operator
             client.getLoggedUsers().forEach(System.out::println);
 ```
 
-### Creating new channel
+### Creating a new channel
 ``` java
             // Hot to make new channel
             client.makeChannel(

@@ -28,6 +28,10 @@
 
             // Register for logged user
             client.registerForAddUserPacker( packet -> System.out.println("User: " + packet));
+```
+
+### Connecting and logging
+``` java
 
             System.out.println("Connecting: " + client.connect());
             System.out.println("Logging: " + client.login(nick, username, password));

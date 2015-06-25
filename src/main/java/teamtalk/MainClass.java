@@ -13,12 +13,12 @@ public class MainClass {
         public static void main(String[] args) {
 
             // Server info
-            String hostName = "153.19.141.166";
+            String hostName = "127.0.0.1";
             int portNumber = 7077;
 
             // User info
-            String username = "100KO";
-            String password = "100KO";
+            String username = "admin";
+            String password = "password";
             String nick = "Java Admin";
 
             TeamTalkClient client = new TeamTalkClient(

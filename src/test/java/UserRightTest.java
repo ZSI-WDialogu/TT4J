@@ -1,13 +1,13 @@
 import teamtalk.TeamTalkClient;
 import teamtalk.TeamTalkConnection;
 import teamtalk.enums.UserRight;
+import teamtalk.enums.UserType;
+import teamtalk.packets.UserData;
 import teamtalk.utils.MapUtil;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -17,22 +17,26 @@ public class UserRightTest {
 
     public static void main(String[] args) throws IOException {
 
-//        // Server info
-//        String hostName = "153.19.141.166";
-//        int portNumber = 7077;
-//
-//        // User info
-//        String username = "stoko";
-//        String password = "stoko";
-//        String nick = "Java Admin";
-//
-//        TeamTalkClient client = new TeamTalkClient(
-//                new TeamTalkConnection(hostName, portNumber));
+        // Server info
+        String hostName = "";
+        int portNumber = 7077;
+
+        // User info
+        String username = "";
+        String password = "";
+        String nick = "Java Admin";
+
+        TeamTalkClient client = new TeamTalkClient(
+                new TeamTalkConnection(hostName, portNumber));
+
+        System.out.println("Connecting: " + client.connect());
+        System.out.println("Logging: " + client.login(nick, username, password));
 
         try {
-
+            // Add
             getRights().forEach( (name, value) -> {
                 System.out.println(String.format("Name: %s, value: %s", name, value));
+                client.addUser(new UserData(name, name, UserType.DEFAULT, "rights test", "1", value));
             });
 
         } catch (IllegalAccessException e) {

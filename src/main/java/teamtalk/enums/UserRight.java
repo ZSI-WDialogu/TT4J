@@ -23,7 +23,7 @@ public class UserRight {
     public static final int USERRIGHT_TRANSMIT_DESKTOP = 16384;             // User is allowed to forward desktop packets through server.
     public static final int USERRIGHT_TRANSMIT_DESKTOPINPUT = 32768;        // User is allowed to forward desktop input packets through server.
     public static final int USERRIGHT_TRANSMIT_MEDIAFILE_AUDIO = 65536;     // User is allowed to stream audio files to channel.
-    public static final int USERRIGHT_TRANSMIT_MEDIAFILE_VIDEO = 13107;     // User is allowed to stream video files to channel.
+    public static final int USERRIGHT_TRANSMIT_MEDIAFILE_VIDEO = 131072;    // User is allowed to stream video files to channel.
 
 
     public static int getTransmissionRights(){

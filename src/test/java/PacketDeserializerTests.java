@@ -1,5 +1,5 @@
 import org.codehaus.jackson.map.ObjectMapper;
-import teamtalk.packets.AddChannelPacket;
+import TT4J.packets.AddChannelPacket;
 
 import java.io.IOException;
 

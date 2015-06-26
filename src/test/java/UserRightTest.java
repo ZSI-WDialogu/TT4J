@@ -1,9 +1,10 @@
-import teamtalk.TeamTalkClient;
-import teamtalk.TeamTalkConnection;
-import teamtalk.enums.UserRight;
-import teamtalk.enums.UserType;
-import teamtalk.packets.UserData;
-import teamtalk.utils.MapUtil;
+import TT4J.TeamTalkClient;
+import TT4J.TeamTalkConnection;
+import TT4J.enums.UserRight;
+import TT4J.enums.UserType;
+import TT4J.packets.UserData;
+import TT4J.utils.MapUtil;
+import example.ConfigurationLoader;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -17,9 +18,12 @@ public class UserRightTest {
 
     public static void main(String[] args) throws IOException {
 
+        // Load configuration from file
+        ConfigurationLoader conf = new ConfigurationLoader("config.properties");
+
         // Server info
-        String hostName = "";
-        int portNumber = 7077;
+        String hostName = conf.getHostName();
+        int portNumber = conf.getPort();
 
         // User info
         String username = "";

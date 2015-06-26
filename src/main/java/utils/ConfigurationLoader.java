@@ -1,4 +1,4 @@
-package example;
+package utils;
 
 import java.io.*;
 import java.util.Properties;

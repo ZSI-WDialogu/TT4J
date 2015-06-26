@@ -1,4 +1,4 @@
-package example;
+package examples;
 
 import TT4J.Channel;
 import TT4J.TeamTalkClient;
@@ -8,11 +8,12 @@ import TT4J.enums.UserRight;
 import TT4J.enums.UserType;
 import TT4J.packets.AddUserPacket;
 import TT4J.packets.UserData;
+import utils.ConfigurationLoader;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainClass {
+public class MainExample {
 
         public static void main(String[] args) {
 

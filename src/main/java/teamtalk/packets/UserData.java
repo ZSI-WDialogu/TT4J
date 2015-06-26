@@ -23,7 +23,7 @@ public class UserData extends APINetworkPacket {
     public UserData() {
         super(APINetworkPacketType.USER_ACCOUNT);
     }
-    public UserData(String username, String password, UserType usertype, String note, String initchan){
+    public UserData(String username, String password, UserType usertype, String note, String initchan, int userrights){
         this();
 
         this.username = username;
@@ -31,12 +31,13 @@ public class UserData extends APINetworkPacket {
         this.usertype = usertype;
         this.note = note;
         this.initchan = initchan;
+        this.userrights = userrights;
     }
 
     @Override
     public String toString() {
-        return String.format("username=\"%s\" password=\"%s\" usertype=%s note=\"%s\" channel=\"%s\"",
-                username, password, usertype, note, initchan);
+        return String.format("username=\"%s\" password=\"%s\" usertype=%s note=\"%s\" channel=\"%s\" userrights=%s userdata=%s",
+                username, password, usertype, note, initchan, userrights, userdata);
     }
 
     public String getUsername() {

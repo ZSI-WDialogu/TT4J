@@ -7,8 +7,9 @@ import org.codehaus.jackson.annotate.JsonCreator;
  */
 public enum UserType {
 
-    DEFAULT(1),
-    ADMIN(2);
+    NONE(0),    // Used internally to denote an unauthenticated user
+    DEFAULT(1), // A default user who can join channels.
+    ADMIN(2);   // A user with administrator privileges.
 
     private final int numericValue;
 

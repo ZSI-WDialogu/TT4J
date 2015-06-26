@@ -5,29 +5,28 @@
 ### Creating a client instance
 ``` java
 // Server info
-            String hostName = "xxx.xxx.xxx.xxx";
-            int portNumber = 7077;
+String hostName = "xxx.xxx.xxx.xxx";
+int portNumber = 7077;
 
-            // User info
-            String username = "user";
-            String password = "passwd";
-            String nick = "Java Admin";
+// User info
+String username = "user";
+String password = "passwd";
+String nick = "Java Admin";
 
-            TeamTalkClient client = new TeamTalkClient(
-                    new TeamTalkConnection(hostName, portNumber));
+TeamTalkClient client = new TeamTalkClient(
+        new TeamTalkConnection(hostName, portNumber));
 ```
 
 ### Register for sample events
 ``` java
+// Register for channel updates
+client.registerForAddChannel( packet ->  System.out.println("Event: " + packet));
 
-            // Register for channel updates
-            client.registerForAddChannel( packet ->  System.out.println("Event: " + packet));
+// Register for errors
+client.registerForErrorPacket(error -> System.out.println("Error: " + error));
 
-            // Register for errors
-            client.registerForErrorPacket(error -> System.out.println("Error: " + error));
-
-            // Register for logged user
-            client.registerForAddUserPacker( packet -> System.out.println("User: " + packet));
+// Register for logged user
+client.registerForAddUserPacker( packet -> System.out.println("User: " + packet));
 ```
 
 ### Connecting and logging
@@ -39,9 +38,10 @@
 ```
 ### Creating a new user
 ``` java
-            // How to create new user
-            client.addUser(
-                new UserData("New java user 3", "123", UserType.DEFAULT, "new user", "1"));
+// How to create new user
+client.addUser(
+    new UserData("New java user 3", "123", UserType.DEFAULT, 
+                 "new user", "1",  UserRight.getDefaultRights()));
 ```
 ### Sending message to a channel
 This can be used to send agenda updates from channel operator

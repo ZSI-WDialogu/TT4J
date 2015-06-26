@@ -31,10 +31,8 @@ client.registerForAddUserPacker( packet -> System.out.println("User: " + packet)
 
 ### Connecting and logging
 ``` java
-
-            System.out.println("Connecting: " + client.connect());
-            System.out.println("Logging: " + client.login(nick, username, password));
-
+System.out.println("Connecting: " + client.connect());
+System.out.println("Logging: " + client.login(nick, username, password));
 ```
 ### Creating a new user
 ``` java
@@ -46,48 +44,47 @@ client.addUser(
 ### Sending message to a channel
 This can be used to send agenda updates from channel operator
 ``` java
-            // How to send message: it can be used to update meeting agenda
-            client.sendMessage(1, "It's a Me: a message!");
+// How to send message: it can be used to update meeting agenda
+client.sendMessage(1, "It's a Me: a message!");
 ```
 
 ### Displaying all accounts
 ``` java
-            // How to display all accounts
-            System.out.println("List accounts: ");
-            client.getAllUsersFromServer().forEach(System.out::println);
+// How to display all accounts
+System.out.println("List accounts: ");
+client.getAllUsersFromServer().forEach(System.out::println);
 ```
 
 ### Displaying all channels
 ``` java
-            // How to display all channels
-            System.out.println("List channels: ");
-            client.getChannels().forEach(System.out::println);
+// How to display all channels
+System.out.println("List channels: ");
+client.getChannels().forEach(System.out::println);
 ```
 
 ### Displaying all accounts
 ``` java
-            // How to display logged account
-            System.out.println("List logged users: ");
-            client.getLoggedUsers().forEach(System.out::println);
+// How to display logged account
+System.out.println("List logged users: ");
+client.getLoggedUsers().forEach(System.out::println);
 ```
 
 ### Moving all users to another channel
 ``` java
-            // Move all users to one channel
-            System.out.println("Move users...");
-            List<AddUserPacket> list = new ArrayList(client.getLoggedUsers());
-            list.forEach(user -> System.out.println(client.moveUser(user.getUserid(), 2)));
-            // Check if users have been moved
-            System.out.println("List logged users: ");
-            client.getLoggedUsers().forEach(System.out::println);
+// Move all users to one channel
+System.out.println("Move users...");
+List<AddUserPacket> list = new ArrayList(client.getLoggedUsers());
+list.forEach(user -> System.out.println(client.moveUser(user.getUserid(), 2)));
+
+// Check if users have been moved
+System.out.println("List logged users: ");
+client.getLoggedUsers().forEach(System.out::println);
 ```
 
 ### Creating a new channel
 ``` java
-            // Hot to make new channel
-            client.makeChannel(
-            	new Channel(1, true, "api channel 5", "123", "Java docs",
-                	AudioCodec.SpeexVBR));
-           
-           client.close();
+// Hot to make new channel
+client.makeChannel(
+    new Channel(1, true, "api channel 5", "123", "Java docs",
+	AudioCodec.SpeexVBR));
 ```

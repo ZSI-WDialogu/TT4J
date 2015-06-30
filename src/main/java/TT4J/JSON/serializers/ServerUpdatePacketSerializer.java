@@ -16,7 +16,7 @@ public class ServerUpdatePacketSerializer extends JsonSerializer<ServerUpdatePac
 
     @Override
     public void serialize(ServerUpdatePacket value, JsonGenerator jgen, SerializerProvider provider)
-            throws IOException, JsonProcessingException {
+            throws IOException {
 
         // Load configuration from file
         ConfigurationLoader cl = new ConfigurationLoader("config.properties");

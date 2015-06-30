@@ -83,8 +83,7 @@ public class TeamTalkConnection implements APIConnection {
         String signedCommand = String.format("%s id=%s", command, cmdId);
 
         out.println(signedCommand);
-        boolean response = processReply(cmdId);
-        return response;
+        return processReply(cmdId);
     }
 
     private boolean processReply(int command_id) {

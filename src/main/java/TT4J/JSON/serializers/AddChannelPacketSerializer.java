@@ -14,7 +14,7 @@ import java.io.IOException;
 public class AddChannelPacketSerializer  extends JsonSerializer<AddChannelPacket> {
 
     @Override
-    public void serialize(AddChannelPacket value, JsonGenerator jgen, SerializerProvider provider) throws IOException, JsonProcessingException {
+    public void serialize(AddChannelPacket value, JsonGenerator jgen, SerializerProvider provider) throws IOException {
         jgen.writeStartObject();
         jgen.writeNumberField("ID", value.getChanid());
         jgen.writeStringField("Password", value.getPassword());

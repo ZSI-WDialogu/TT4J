@@ -16,7 +16,7 @@ public class UserDataSerializer extends JsonSerializer<UserData> {
 
     @Override
     public void serialize(UserData value, JsonGenerator jgen, SerializerProvider provider)
-            throws IOException, JsonProcessingException {
+            throws IOException {
         jgen.writeStartObject();
         jgen.writeStringField("Nick", value.getUsername());
         jgen.writeStringField("Login", value.getUsername());

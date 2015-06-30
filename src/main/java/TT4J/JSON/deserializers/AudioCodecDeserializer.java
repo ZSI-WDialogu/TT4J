@@ -14,7 +14,7 @@ import java.io.IOException;
 public class AudioCodecDeserializer extends JsonDeserializer<AudioCodec> {
 
     @Override
-    public AudioCodec deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+    public AudioCodec deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
         String text = jp.getText();
         return AudioCodec.fromString(text);
     }

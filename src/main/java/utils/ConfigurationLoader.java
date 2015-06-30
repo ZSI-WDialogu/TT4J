@@ -13,6 +13,7 @@ public class ConfigurationLoader {
 
     private String hostName;
     private int port;
+    private boolean encrypted;
 
     public ConfigurationLoader(String filePath){
         this.filePath = filePath;
@@ -25,7 +26,6 @@ public class ConfigurationLoader {
 
         try {
 
-
             ClassLoader classLoader = getClass().getClassLoader();
             input = classLoader.getResourceAsStream(filePath);
 
@@ -35,6 +35,7 @@ public class ConfigurationLoader {
             // get the property value and print it out
             this.hostName = prop.getProperty("hostname");
             this.port =  Integer.valueOf(prop.getProperty("port"));
+            this.encrypted = Boolean.valueOf(prop.getProperty("encrypted"));
 
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -55,5 +56,9 @@ public class ConfigurationLoader {
 
     public int getPort() {
         return port;
+    }
+
+    public boolean isEncrypted() {
+        return encrypted;
     }
 }

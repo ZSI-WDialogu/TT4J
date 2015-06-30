@@ -28,7 +28,7 @@ public class ServerUpdatePacketSerializer extends JsonSerializer<ServerUpdatePac
         jgen.writeNumberField("UDPPort", value.getUdpport());
         jgen.writeNumberField("LocalTcpPort", value.getTcpport());
         jgen.writeNumberField("LocalUdpPort", value.getUdpport());
-        jgen.writeBooleanField("Encrypted", false);
+        jgen.writeBooleanField("Encrypted", cl.isEncrypted());
 
         jgen.writeEndObject();
 

@@ -1,6 +1,7 @@
 package examples.ActiveLink;
 
 import TT4J.JSON.serializers.AddChannelPacketSerializer;
+import TT4J.JSON.serializers.ServerUpdatePacketSerializer;
 import TT4J.JSON.serializers.UserDataSerializer;
 import TT4J.packets.AddChannelPacket;
 import TT4J.packets.ServerUpdatePacket;
@@ -17,6 +18,8 @@ public class ConnectionSettings{
 
     @JsonSerialize(using = AddChannelPacketSerializer.class)
     AddChannelPacket Channel;
+
+    @JsonSerialize(using = ServerUpdatePacketSerializer.class)
     ServerUpdatePacket Server;
 
     public ConnectionSettings(UserData user, AddChannelPacket channel, ServerUpdatePacket server){

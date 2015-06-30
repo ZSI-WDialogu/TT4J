@@ -2,10 +2,9 @@ package TT4J.JSON.serializers;
 
 import TT4J.packets.ServerUpdatePacket;
 import org.codehaus.jackson.JsonGenerator;
-import org.codehaus.jackson.JsonProcessingException;
 import org.codehaus.jackson.map.JsonSerializer;
 import org.codehaus.jackson.map.SerializerProvider;
-import utils.ConfigurationLoader;
+import TT4J.utils.ConfigurationLoader;
 
 import java.io.IOException;
 

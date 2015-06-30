@@ -5,7 +5,7 @@ import TT4J.TeamTalkConnection;
 import TT4J.enums.UserRight;
 import TT4J.enums.UserType;
 import TT4J.packets.UserData;
-import utils.ConfigurationLoader;
+import TT4J.utils.ConfigurationLoader;
 
 public class MakeUsers {
 

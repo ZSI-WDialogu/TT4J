@@ -1,4 +1,4 @@
-package utils;
+package TT4J.utils;
 
 import java.io.IOException;
 import java.io.InputStream;

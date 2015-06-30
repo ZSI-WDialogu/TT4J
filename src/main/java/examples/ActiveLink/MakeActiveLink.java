@@ -2,7 +2,7 @@ package examples.ActiveLink;
 
 import TT4J.TeamTalkClient;
 import TT4J.TeamTalkConnection;
-import utils.ConfigurationLoader;
+import TT4J.utils.ConfigurationLoader;
 
 import java.io.IOException;
 

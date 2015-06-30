@@ -1,10 +1,10 @@
 package TT4J;
 
-import com.sun.javaws.exceptions.InvalidArgumentException;
 import TT4J.enums.APINetworkPacketType;
 import TT4J.interfaces.APIConnection;
 import TT4J.packets.APINetworkPacket;
 import TT4J.packets.RawPacket;
+import com.sun.javaws.exceptions.InvalidArgumentException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -137,10 +137,6 @@ public class TeamTalkConnection implements APIConnection {
 
     public boolean getIsConnected() {
         return isConnected;
-    }
-
-    public void setIsConnected(boolean isConnected) {
-        this.isConnected = isConnected;
     }
 
     public void onPacketReceived(Consumer<APINetworkPacket> consumer) {

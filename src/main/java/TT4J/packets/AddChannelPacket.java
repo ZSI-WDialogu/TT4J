@@ -1,9 +1,9 @@
 package TT4J.packets;
 
-import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import TT4J.JSON.deserializers.AudioCodecDeserializer;
 import TT4J.enums.APINetworkPacketType;
 import TT4J.enums.AudioCodec;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
 
 /**
  * Created by stokowiec on 2015-06-19.

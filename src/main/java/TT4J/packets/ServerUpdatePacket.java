@@ -36,6 +36,11 @@ public class ServerUpdatePacket extends  APINetworkPacket {
         super(APINetworkPacketType.SERVER_UPDATE);
     }
 
+    @Override
+    public String toString(){
+        return String.format("[Server] name: %s, MOD: %s, TCP port: %s", servername, motd, tcpport);
+    }
+
     public String getServername() {
         return servername;
     }

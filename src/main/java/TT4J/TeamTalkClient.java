@@ -4,7 +4,10 @@ import TT4J.enums.APINetworkPacketType;
 import TT4J.interfaces.APIConnection;
 import TT4J.packets.*;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 
 
@@ -161,6 +164,10 @@ public class TeamTalkClient {
 
     public void registerForServerUpdatePacket(Consumer<ServerUpdatePacket> consumer){
         this.onServerUpdatePacket.register(consumer);
+    }
+
+    public void registerForUserData(Consumer<UserData> consumer){
+        this.onUserPacket.register(consumer);
     }
 
     // USER COMMAND REGIONS

@@ -1,15 +1,17 @@
-package examples;
+package examples.ActiveLink;
 
 import TT4J.TeamTalkClient;
 import TT4J.TeamTalkConnection;
-import TT4J.enums.UserRight;
-import TT4J.enums.UserType;
-import TT4J.packets.UserData;
 import utils.ConfigurationLoader;
 
-public class MakeUsers {
+import java.io.IOException;
 
-    public static void main(String[] args) {
+/**
+ * Created by Stokowiec on 2015-06-30.
+ */
+public class MakeActiveLink {
+
+    public static void main(String[] args) throws IOException {
 
         // Load configuration from file
         ConfigurationLoader cl = new ConfigurationLoader("config.properties");
@@ -18,21 +20,22 @@ public class MakeUsers {
         String hostName = cl.getHostName();
         int port = cl.getPort();
 
+        TeamTalkClient client = new TeamTalkClient(
+                new TeamTalkConnection(hostName, port));
+
+        // Set up link provider;
+        LinkProvider linkProvider = new LinkProvider();
+        linkProvider.register(client);
+
         // User info
         String username = "user";
         String password = "password";
         String nick = "Java Admin";
 
-        TeamTalkClient client = new TeamTalkClient(
-                new TeamTalkConnection(hostName, port));
-
         System.out.println("Connecting: " + client.connect());
         System.out.println("Logging: " + client.login(nick, username, password));
 
-        // How to create new user
-        for(int i =0; i < 20; i++) {
-            client.addUser(
-                    new UserData("New java user " + i, "123", UserType.DEFAULT, "new user", "1", UserRight.getDefaultRights()));
-        }
+        System.out.println(linkProvider.getJSONConnectionSetting("user", 2));
+
     }
 }

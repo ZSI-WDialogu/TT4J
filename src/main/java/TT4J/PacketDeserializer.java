@@ -29,7 +29,7 @@ public class PacketDeserializer {
     private Map<APINetworkPacketType, Class<? extends APINetworkPacket>> initializeMap() {
 
         Map<APINetworkPacketType, Class<? extends APINetworkPacket>> classes = new HashMap<>();
-        Reflections reflections = new Reflections("teamtalk.packets");
+        Reflections reflections = new Reflections("TT4J.packets");
 
         Set<Class<? extends APINetworkPacket>> packets =
                 reflections.getSubTypesOf(APINetworkPacket.class);

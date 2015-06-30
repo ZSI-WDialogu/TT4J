@@ -26,6 +26,10 @@ public class MakeUsers {
         TeamTalkClient client = new TeamTalkClient(
                 new TeamTalkConnection(hostName, port));
 
+        client.registerForServerUpdatePacket( packet ->
+            System.out.println("Server: " + packet.toString())
+        );
+
         System.out.println("Connecting: " + client.connect());
         System.out.println("Logging: " + client.login(nick, username, password));
 

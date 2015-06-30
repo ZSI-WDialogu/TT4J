@@ -4,7 +4,7 @@ package TT4J.enums;
  * Created by Stokowiec on 2015-06-18.
  */
 public enum APINetworkPacketType {
-    HANDSHAKE("TT4J"),
+    HANDSHAKE("teamtalk"),
     BEGIN("begin"),
     END("end"),
     ACCEPTED("accepted"),

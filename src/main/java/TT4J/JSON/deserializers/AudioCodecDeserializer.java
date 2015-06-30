@@ -1,4 +1,4 @@
-package TT4J.deserializers;
+package TT4J.JSON.deserializers;
 
 import org.codehaus.jackson.JsonParser;
 import org.codehaus.jackson.JsonProcessingException;

@@ -13,7 +13,7 @@ public class TeamTalkClient {
     private HandshakePacket serverInfo;
     private List<UserData> allUsers;
     private List<AddUserPacket> loggedUsers;
-    private List<Object> channels;
+    private List<AddChannelPacket> channels;
     private APIConnection connection;
 
     private Event<UserData> onUserPacket = new Event<>();
@@ -114,7 +114,7 @@ public class TeamTalkClient {
     private synchronized void handleRemoveUserPacket(APINetworkPacket packet) {
         RemoveUserPacket p = (RemoveUserPacket) packet;
         if(p!=null){
-            loggedUsers.removeIf( user -> user.getUserid() == p.getUserid());
+            loggedUsers.removeIf(user -> user.getUserid() == p.getUserid());
             onRemoveUserPacket.invoke(p);
         }
     }
@@ -159,6 +159,10 @@ public class TeamTalkClient {
         this.onRemoveUserPacket.register(consumer);
     }
 
+    public void registerForServerUpdatePacket(Consumer<ServerUpdatePacket> consumer){
+        this.onServerUpdatePacket.register(consumer);
+    }
+
     // USER COMMAND REGIONS
     public boolean login(String nick, String username, String password){
          return connection.sendCommand(String.format("login username=\"%s\" password=\"%s\" protocol=\"5.0\" nickname=\"%s\"", username, password, nick));
@@ -180,7 +184,7 @@ public class TeamTalkClient {
         return connection.sendCommand(String.format("moveuser userid=%s chanid=%s", userId, channelId));
     }
 
-    public List<Object> getChannels() {
+    public List<AddChannelPacket> getChannels() {
         return channels;
     }
 

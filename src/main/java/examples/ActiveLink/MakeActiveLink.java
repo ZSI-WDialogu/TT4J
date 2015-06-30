@@ -43,10 +43,11 @@ public class MakeActiveLink {
         linkProvider.setChannels(client.getChannels());
         linkProvider.setUsers(client.getAllUsersFromServer());
 
-//        while(!linkProvider.isReady()){
-//           Thread.sleep(100);
-//        }
+        while(!linkProvider.isReady()){
+           Thread.sleep(100);
+        }
 
         System.out.println(linkProvider.getJSONConnectionSetting("user", 2));
+        System.out.println(linkProvider.getEncodedConnectionString("user", 2));
     }
 }

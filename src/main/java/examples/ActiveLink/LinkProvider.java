@@ -11,12 +11,15 @@ import org.codehaus.jackson.map.ObjectMapper;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 /**
  * Created by Stokowiec on 2015-06-30.
  */
 public class LinkProvider {
+
+    private final static String PREFIX = "wdialogu://%s";
 
     protected class State {
 
@@ -81,8 +84,7 @@ public class LinkProvider {
         UserData user = CollectionUtils.getFirst(users, u -> u.getUsername().equals(userName));
         AddChannelPacket channel = CollectionUtils.getFirst(channels, c -> c.getChanid() == channelId);
 
-        String result = mapper.writeValueAsString(new ConnectionSettings(user, channel, server));
-        return result;
+        return mapper.writeValueAsString(new ConnectionSettings(user, channel, server));
     }
 
     public void setUsers(List<UserData> users) {
@@ -97,5 +99,13 @@ public class LinkProvider {
 
     public boolean isReady(){
         return state.onReady.hasBeenInvoked();
+    }
+
+    public String getEncodedConnectionString(String userName, int channelId) throws IOException {
+        return String.format(PREFIX, encode(getJSONConnectionSetting(userName, channelId)));
+    }
+
+    private String encode(String data){
+        return Base64.getEncoder().encodeToString(data.getBytes());
     }
 }

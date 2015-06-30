@@ -1,6 +1,5 @@
 package TT4J.JSON.serializers;
 
-import TT4J.packets.AddChannelPacket;
 import TT4J.packets.ServerUpdatePacket;
 import org.codehaus.jackson.JsonGenerator;
 import org.codehaus.jackson.JsonProcessingException;

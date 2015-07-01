@@ -20,11 +20,43 @@ public class PacketDeserializer {
     private ObjectMapper mapper;
     private Map<APINetworkPacketType, Class<? extends APINetworkPacket>> classes;
 
+    /**
+     * Class to deserialize incoming packets
+     * This class takes the advantage of JSON.
+     */
     public PacketDeserializer(){
         mapper= new ObjectMapper();
         classes = initializeMap();
     }
 
+    /**
+     * Deserialize RawPacket to APINetworkPacket
+     * @param packet to be deserialized
+     * @return APINetworkPacket of appropriate type
+     * @throws InvalidArgumentException
+     */
+    public APINetworkPacket deserialize(RawPacket packet) throws InvalidArgumentException {
+
+        APINetworkPacketType type = packet.type();
+        if(!classes.containsKey(type))
+            throw new InvalidArgumentException(new String[]{"Packet not registered"});
+
+        String serializedPacket = packet.toString();
+
+        APINetworkPacket p = null;
+        try {
+            p = mapper.readValue(serializedPacket, classes.get(type));
+        } catch (IOException e) {
+            throw new InvalidArgumentException(new String[]{"Cannot deserialize"});
+        }
+        return p;
+    }
+
+    /**
+     * This method creates mapping between type of packet and it's class, which is then used
+     * in JSON deserialization: mapper must be told which class it should create.
+     * @return Mapping from packet type to class which implement this type
+     */
     private Map<APINetworkPacketType, Class<? extends APINetworkPacket>> initializeMap() {
 
         Map<APINetworkPacketType, Class<? extends APINetworkPacket>> classes = new HashMap<>();
@@ -45,22 +77,5 @@ public class PacketDeserializer {
         }
 
         return classes;
-    }
-
-    public APINetworkPacket deserialize(RawPacket packet) throws InvalidArgumentException {
-
-        APINetworkPacketType type = packet.type();
-        if(!classes.containsKey(type))
-            throw new InvalidArgumentException(new String[]{"Packet not registered"});
-
-        String serializedPacket = packet.toString();
-
-        APINetworkPacket p = null;
-        try {
-            p = mapper.readValue(serializedPacket, classes.get(type));
-        } catch (IOException e) {
-            throw new InvalidArgumentException(new String[]{"Cannot deserialize"});
-        }
-        return p;
     }
 }

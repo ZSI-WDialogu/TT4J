@@ -3,8 +3,8 @@ import TT4J.TeamTalkConnection;
 import TT4J.enums.UserRight;
 import TT4J.enums.UserType;
 import TT4J.packets.UserData;
-import TT4J.utils.MapUtil;
 import TT4J.utils.ConfigurationLoader;
+import TT4J.utils.MapUtil;
 
 import java.io.IOException;
 import java.lang.reflect.Field;

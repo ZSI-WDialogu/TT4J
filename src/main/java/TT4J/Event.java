@@ -7,6 +7,10 @@ import java.util.function.Consumer;
 /**
  * Created by stokowiec on 2015-06-19.
  */
+
+/**
+ * Simple Event implementation
+  */
 public class Event<T> {
 
     private boolean hasBeenInvoked;

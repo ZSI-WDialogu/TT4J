@@ -8,8 +8,10 @@ import org.apache.commons.codec.binary.Base64;
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
+
 import java.security.PrivateKey;
 import java.security.PublicKey;
+
 
 
 /**
@@ -114,6 +116,8 @@ public class RSAEncryption  implements Encrypter {
 
         return toReturn;
     }
+
+
 
     private byte[] append(byte[] prefix, byte[] suffix){
         byte[] toReturn = new byte[prefix.length + suffix.length];

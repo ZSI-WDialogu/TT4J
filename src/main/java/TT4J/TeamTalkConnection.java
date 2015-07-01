@@ -15,7 +15,43 @@ import java.nio.channels.NotYetConnectedException;
 import java.util.function.Consumer;
 
 /**
- * Created by stokowiec on 2015-06-18.
+ *  This class servers as a connection layer with TeamTalk server.
+ *  The TeamTalk protocol is not a request/reply protocol.
+ *
+ *  The server can send commands which are not replies
+ *  issued by the client (you). E.g. once you have logged in you can
+ *  get a command from the server saying that a user has joined a
+ *  channel which is not related to any command you have issued. To
+ *  know if a command is a reply to a command you have issued you need
+ *  to put in the parameter "id=123" where 123 is the command ID of the
+ *  command you want to trace. The server will then encapsulate its
+ *  reply to your command in 'begin' - 'end' replies.
+ *
+ *  Although it may sound complicated it's very simple. Say you have
+ *  logged on to a server and want to list all user accounts. You do
+ *  this by issuing the command "listaccounts id=123". The server will
+ *  send repond like this:
+ *
+ *  begin id=123
+ *  useraccount username="ben" password="pass123" usertype=1
+ *  useraccount username="jill" password="pppjjj" usertype=2
+ *  ok
+ *  end id=123
+ *
+ *  When you get the 'end' command it means there will be no more
+ *  commands issued by the server related to the command with the
+ *  specified 'id'. The 'ok' command reply means that the command
+ *  executed successfully. Had it not the command 'error' would have
+ *  been returned like in the following example:
+ *
+ *  begin id=123
+ *  error number=2006 message="Command not authorized"
+ *  end id=123
+ *
+ *  The 'id' parameter can be omitted which is sometimes convenient but
+ *  if you want to know which commands issued by the server are related
+ *  to a command issued by you you need to include the 'id' parameter.
+
  */
 public class TeamTalkConnection implements APIConnection {
 
@@ -38,6 +74,11 @@ public class TeamTalkConnection implements APIConnection {
         this.deserializer = new PacketDeserializer();
     }
 
+
+    /**
+     * Initialise connection to TeamTalk server
+     * @return true if connection is successful, false otherwise
+     */
     @Override
     public boolean connect() {
 
@@ -57,6 +98,9 @@ public class TeamTalkConnection implements APIConnection {
         return isConnected;
     }
 
+    /**
+     * Terminates connection to TeamTalk server
+     */
     @Override
     public void disconnect() {
         if(!isConnected)
@@ -74,6 +118,12 @@ public class TeamTalkConnection implements APIConnection {
         }
     }
 
+    /**
+     * Send string command to TeamTalk server
+     * @param command to be send
+     * @return true, if command has been successfully processed, false otherwise
+     * @throws NotYetConnectedException
+     */
     @Override
     public boolean sendCommand(String command) throws NotYetConnectedException {
         if(!isConnected)
@@ -87,12 +137,18 @@ public class TeamTalkConnection implements APIConnection {
         return response;
     }
 
+    /**
+     * After message has been send it ought to be processed with accordance to TeamTalk protocol.
+     * This method keep track of incoming packets with their respective ids and tries to deserialize packets
+     * @param command_id id of the command send to the server
+     * @return true, if command has been successfully processed, false otherwise
+     */
     private boolean processReply(int command_id) {
         String fromServer;
         try {
 
             int current_command_id = 0;         // Variable to keep track of the command ID which is currently being processed
-            boolean success = false;            // Variable to keep track of whether the $cmdid parameter succeeded
+            boolean success = false;            // Variable to keep track of whether the command_id parameter succeeded
 
             while ((fromServer = in.readLine()) != null){
 
@@ -135,14 +191,18 @@ public class TeamTalkConnection implements APIConnection {
         return false;
     }
 
+    /**
+     * Checks if client has successfully connected to server
+     * @return true, if client is connected, false otherwise
+     */
     public boolean getIsConnected() {
         return isConnected;
     }
 
-    public void setIsConnected(boolean isConnected) {
-        this.isConnected = isConnected;
-    }
-
+    /**
+     * Event to be subscribed. When network packet is successfully deserialized this event is invoked.
+     * @param consumer
+     */
     public void onPacketReceived(Consumer<APINetworkPacket> consumer) {
         packetReceived.register(consumer);
     }

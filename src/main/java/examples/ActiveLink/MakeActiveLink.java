@@ -24,8 +24,8 @@ public class MakeActiveLink {
                 new TeamTalkConnection(hostName, port));
 
         client.registerForAccepted(System.out::println);
-        client.registerForAddUserPacker(System.out::println);
-        client.registerForAddChannel(System.out::println);
+        client.registerForAddUserPacket(System.out::println);
+        client.registerForAddChannelPacket(System.out::println);
 
         // Set up link provider;
         LinkProvider linkProvider = new LinkProvider();

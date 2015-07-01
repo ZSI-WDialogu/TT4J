@@ -7,6 +7,10 @@ import java.util.Properties;
 /**
  * Created by stokowiec on 2015-06-26.
  */
+
+/**
+ * Helper class used to load configuration from file
+ */
 public class ConfigurationLoader {
 
     private String filePath;

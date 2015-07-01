@@ -1,15 +1,15 @@
 package TT4J.JSON.serializers;
 
 import TT4J.packets.ServerUpdatePacket;
+import TT4J.utils.ConfigurationLoader;
 import org.codehaus.jackson.JsonGenerator;
 import org.codehaus.jackson.map.JsonSerializer;
 import org.codehaus.jackson.map.SerializerProvider;
-import TT4J.utils.ConfigurationLoader;
 
 import java.io.IOException;
 
 /**
- * Created by Stokowiec on 2015-06-30.
+ * Used in ActiveLink generation
  */
 public class ServerUpdatePacketSerializer extends JsonSerializer<ServerUpdatePacket> {
 

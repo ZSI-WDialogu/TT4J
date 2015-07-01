@@ -3,7 +3,6 @@ package TT4J.JSON.serializers;
 
 import TT4J.packets.UserData;
 import org.codehaus.jackson.JsonGenerator;
-import org.codehaus.jackson.JsonProcessingException;
 import org.codehaus.jackson.map.JsonSerializer;
 import org.codehaus.jackson.map.SerializerProvider;
 

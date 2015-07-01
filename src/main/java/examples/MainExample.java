@@ -33,13 +33,13 @@ public class MainExample {
                     new TeamTalkConnection(hostName, port));
 
             // Register for channel updates
-            client.registerForAddChannel( packet ->  System.out.println("Event: " + packet));
+            client.registerForAddChannelPacket(packet -> System.out.println("Event: " + packet));
 
             // Register for errors
             client.registerForErrorPacket(error -> System.out.println("Error: " + error));
 
             // Register for logged user
-            client.registerForAddUserPacker( packet -> System.out.println("User: " + packet));
+            client.registerForAddUserPacket(packet -> System.out.println("User: " + packet));
 
             System.out.println("Connecting: " + client.connect());
             System.out.println("Logging: " + client.login(nick, username, password));

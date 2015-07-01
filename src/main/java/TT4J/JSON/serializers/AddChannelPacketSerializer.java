@@ -2,14 +2,13 @@ package TT4J.JSON.serializers;
 
 import TT4J.packets.AddChannelPacket;
 import org.codehaus.jackson.JsonGenerator;
-import org.codehaus.jackson.JsonProcessingException;
 import org.codehaus.jackson.map.JsonSerializer;
 import org.codehaus.jackson.map.SerializerProvider;
 
 import java.io.IOException;
 
 /**
- * Created by stokowiec on 2015-06-30.
+ * Used in ActiveLink generation
  */
 public class AddChannelPacketSerializer  extends JsonSerializer<AddChannelPacket> {
 

@@ -147,6 +147,7 @@ public class TeamTalkConnection implements APIConnection {
         try {
 
             int current_command_id = 0;         // Variable to keep track of the command ID which is currently being processed
+            boolean success = false;            // Variable to keep track of whether the command_id parameter succeeded
 
             while ((fromServer = in.readLine()) != null){
 

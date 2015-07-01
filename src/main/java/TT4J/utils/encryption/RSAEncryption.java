@@ -46,6 +46,10 @@ public class RSAEncryption  implements Encrypter {
         return new String(decrypted,"UTF-8");
     }
 
+    public PrivateKey getPrivateKey(){
+        return privateKey;
+    }
+
     private byte[] blockCipher(byte[] bytes, int mode) throws IllegalBlockSizeException, BadPaddingException {
         // string initialize 2 buffers.
         // scrambled will hold intermediate results

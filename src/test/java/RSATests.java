@@ -2,13 +2,14 @@ import TT4J.utils.ConfigurationLoader;
 import TT4J.utils.encryption.PrivateKeyHelper;
 import TT4J.utils.encryption.PublicKeyHelper;
 import TT4J.utils.encryption.RSAEncryption;
+import org.apache.commons.codec.binary.Base64;
 import org.junit.Test;
 
 import java.io.File;
-import java.security.KeyPair;
-import java.security.KeyPairGenerator;
-import java.security.PrivateKey;
-import java.security.PublicKey;
+import java.math.BigInteger;
+import java.security.*;
+import java.security.cert.Extension;
+import java.security.interfaces.RSAPrivateCrtKey;
 
 /**
  * Created by Stokowiec on 2015-07-01.
@@ -20,7 +21,6 @@ public class RSATests {
 
     @Test
     public void readWrite() throws Exception{
-
 
         KeyPairGenerator kpg = KeyPairGenerator.getInstance("RSA");
         kpg.initialize(1024);
@@ -45,9 +45,15 @@ public class RSATests {
         ConfigurationLoader loader = new ConfigurationLoader("config.properties");
         RSAEncryption rsa = new RSAEncryption(loader);
 
+
         String rawString =  "{\"User\":{\"Nick\":\"user\",\"Login\":\"user\",\"Password\":\"password\"},\"Channel\":{\"ID\":2,\"Password\":\"test123\"},\"Server\":{\"IP\":\"153.19.141.166\",\"TCPPort\":7077,\"UDPPort\":7077,\"LocalTcpPort\":7077,\"LocalUdpPort\":7077,\"Encrypted\":false}}";
         String encoded = rsa.encrypt(rawString);
         String decoded = rsa.decrypt(encoded);
+
+        System.out.println(PrivateKeyHelper.toXMLSpec(rsa.getPrivateKey()));
+        System.out.println(encoded);
+        System.out.println(decoded);
+
 
         assert(rawString.equals(decoded));
 

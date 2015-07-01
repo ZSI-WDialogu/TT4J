@@ -1,10 +1,10 @@
 package TT4J.JSON.deserializers;
 
+import TT4J.enums.AudioCodec;
 import org.codehaus.jackson.JsonParser;
 import org.codehaus.jackson.JsonProcessingException;
 import org.codehaus.jackson.map.DeserializationContext;
 import org.codehaus.jackson.map.JsonDeserializer;
-import TT4J.enums.AudioCodec;
 
 import java.io.IOException;
 
@@ -14,7 +14,7 @@ import java.io.IOException;
 public class AudioCodecDeserializer extends JsonDeserializer<AudioCodec> {
 
     @Override
-    public AudioCodec deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+    public AudioCodec deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
         String text = jp.getText();
         return AudioCodec.fromString(text);
     }

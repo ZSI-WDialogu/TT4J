@@ -1,5 +1,5 @@
-import org.codehaus.jackson.map.ObjectMapper;
 import TT4J.packets.AddChannelPacket;
+import org.codehaus.jackson.map.ObjectMapper;
 
 import java.io.IOException;
 

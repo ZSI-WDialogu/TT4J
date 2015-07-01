@@ -5,7 +5,7 @@ import TT4J.TeamTalkConnection;
 import TT4J.enums.UserRight;
 import TT4J.enums.UserType;
 import TT4J.packets.UserData;
-import utils.ConfigurationLoader;
+import TT4J.utils.ConfigurationLoader;
 
 public class MakeUsers {
 
@@ -25,10 +25,6 @@ public class MakeUsers {
 
         TeamTalkClient client = new TeamTalkClient(
                 new TeamTalkConnection(hostName, port));
-
-        client.registerForServerUpdatePacket( packet ->
-            System.out.println("Server: " + packet.toString())
-        );
 
         System.out.println("Connecting: " + client.connect());
         System.out.println("Logging: " + client.login(nick, username, password));

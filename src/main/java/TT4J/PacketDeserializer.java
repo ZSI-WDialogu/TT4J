@@ -1,14 +1,13 @@
 package TT4J;
 
-import com.sun.javaws.exceptions.InvalidArgumentException;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.reflections.Reflections;
 import TT4J.enums.APINetworkPacketType;
 import TT4J.packets.APINetworkPacket;
 import TT4J.packets.RawPacket;
+import com.sun.javaws.exceptions.InvalidArgumentException;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.reflections.Reflections;
 
 import java.io.IOException;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;

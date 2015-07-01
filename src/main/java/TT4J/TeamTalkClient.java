@@ -4,7 +4,10 @@ import TT4J.enums.APINetworkPacketType;
 import TT4J.interfaces.APIConnection;
 import TT4J.packets.*;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 
 /**
@@ -306,5 +309,93 @@ public class TeamTalkClient {
             loggedUsers.removeIf(user -> user.getUserid() == p.getUserid());
             onRemoveUserPacket.invoke(p);
         }
+    }
+
+    // EVENTS
+    private void initialiseEvents() {
+        this.onUserPacket = new Event<>();
+        this.onErrorPacket = new Event<>();
+        this.onHandShakePacket = new Event<>();
+        this.onAcceptedPacket = new Event<>();
+        this.onServerUpdatePacket = new Event<>();
+        this.onAddUserPacket = new Event<>();
+        this.onRemoveUserPacket = new Event<>();
+    }
+
+    // REGISTER FOR EVENTS
+    public void registerForHandShakePacket(Consumer<HandshakePacket> consumer){
+        this.onHandShakePacket.register(consumer);
+    }
+
+    public void registerForErrorPacket(Consumer<ErrorPacket> consumer){
+        this.onErrorPacket.register(consumer);
+    }
+
+    public void registerForHandShake(Consumer<HandshakePacket> consumer){
+        this.onHandShakePacket.register(consumer);
+    }
+
+    public void registerForAccepted(Consumer<AcceptedPacket> consumer){
+        this.onAcceptedPacket.register(consumer);
+    }
+
+    public void registerForAddChannel(Consumer<AddChannelPacket> consumer){
+        this.onAddChannelPacket.register(consumer);
+    }
+
+    public void registerForAddUserPacker(Consumer<AddUserPacket> consumer){
+        this.onAddUserPacket.register(consumer);
+    }
+
+    public void registerForRemoveUserPacket(Consumer<RemoveUserPacket> consumer){
+        this.onRemoveUserPacket.register(consumer);
+    }
+
+    public void registerForServerUpdatePacket(Consumer<ServerUpdatePacket> consumer){
+        this.onServerUpdatePacket.register(consumer);
+    }
+
+    public void registerForUserData(Consumer<UserData> consumer){
+        this.onUserPacket.register(consumer);
+    }
+
+    // USER COMMAND REGIONS
+    public boolean login(String nick, String username, String password){
+         return connection.sendCommand(String.format("login username=\"%s\" password=\"%s\" protocol=\"5.0\" nickname=\"%s\"", username, password, nick));
+    }
+
+    public boolean makeChannel(Channel channel){
+        return connection.sendCommand(String.format("makechannel %s", channel));
+    }
+
+    public boolean sendMessage(int channelId, String message){
+        return connection.sendCommand( String.format("message type=2 content=\"%s\" chanid=%s", message, channelId));
+    }
+
+    public boolean addUser(UserData user){
+        return connection.sendCommand(String.format("newaccount %s", user));
+    }
+
+    public boolean moveUser(int userId, int channelId){
+        return connection.sendCommand(String.format("moveuser userid=%s chanid=%s", userId, channelId));
+    }
+
+    public List<AddChannelPacket> getChannels() {
+        return channels;
+    }
+
+    public List<UserData> getAllUsersFromServer(){
+        if(connection.sendCommand("listaccounts"))
+            return allUsers;
+        else
+            return null;
+    }
+
+    public List<AddUserPacket> getLoggedUsers(){
+        return loggedUsers;
+    }
+
+    public HandshakePacket getServerInfo() {
+        return serverInfo;
     }
 }

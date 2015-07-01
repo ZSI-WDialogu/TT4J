@@ -1,7 +1,7 @@
 import TT4J.utils.ConfigurationLoader;
 import TT4J.utils.encryption.PrivateKeyHelper;
 import TT4J.utils.encryption.PublicKeyHelper;
-import TT4J.utils.encryption.RSAEncryption;
+import TT4J.utils.encryption.RSAHelper;
 
 import org.junit.Test;
 
@@ -41,8 +41,7 @@ public class RSATests {
     public void testRSA() throws Exception {
 
         ConfigurationLoader loader = new ConfigurationLoader("config.properties");
-        RSAEncryption rsa = new RSAEncryption(loader);
-
+        RSAHelper rsa = new RSAHelper(loader);
 
         String rawString =  "{\"User\":{\"Nick\":\"user\",\"Login\":\"user\",\"Password\":\"password\"},\"Channel\":{\"ID\":2,\"Password\":\"test123\"},\"Server\":{\"IP\":\"153.19.141.166\",\"TCPPort\":7077,\"UDPPort\":7077,\"LocalTcpPort\":7077,\"LocalUdpPort\":7077,\"Encrypted\":false}}";
         String encoded = rsa.encrypt(rawString);
@@ -60,9 +59,9 @@ public class RSATests {
     public void testShortRSA() throws Exception {
 
         ConfigurationLoader loader = new ConfigurationLoader("config.properties");
-        RSAEncryption rsa = new RSAEncryption(loader);
+        RSAHelper rsa = new RSAHelper(loader);
 
-        String rawString =  "Hello!Hello!Hello!Hello!Hello!Hello!Hello!Hello!Hello!Hello!Hello!Hello!Hello!Hello!Hello!Hello!Hello!Hello!Hello!Hello!Hello!Hello!Hello!Hello!Hello!Hello!Hello!Hello!Hello!Hello!Hello!Hello!Hello!Hello!Hello!";
+        String rawString =  "Hello!";
         String encoded = rsa.encryptShort(rawString);
         String decoded = rsa.decryptShort(encoded);
 

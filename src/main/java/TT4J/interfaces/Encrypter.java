@@ -6,4 +6,5 @@ package TT4J.interfaces;
  */
 public interface Encrypter {
     String encrypt(String inputString) throws Exception;
+    String encryptShort(String inputString) throws Exception;
 }

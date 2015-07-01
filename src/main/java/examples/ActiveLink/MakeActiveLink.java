@@ -3,7 +3,7 @@ package examples.ActiveLink;
 import TT4J.TeamTalkClient;
 import TT4J.TeamTalkConnection;
 import TT4J.utils.ConfigurationLoader;
-import TT4J.utils.encryption.RSAEncryption;
+import TT4J.utils.encryption.RSAHelper;
 
 /**
  * Created by Stokowiec on 2015-06-30.
@@ -28,7 +28,7 @@ public class MakeActiveLink {
 
         // Set up link provider;
         LinkProvider linkProvider = new LinkProvider(
-                new RSAEncryption(cl));
+                new RSAHelper(cl));
 
         linkProvider.register(client);
 

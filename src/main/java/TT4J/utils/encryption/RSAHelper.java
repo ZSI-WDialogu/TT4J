@@ -1,5 +1,6 @@
 package TT4J.utils.encryption;
 
+import TT4J.interfaces.Decrypter;
 import TT4J.interfaces.Encrypter;
 import TT4J.utils.ConfigurationLoader;
 import org.apache.commons.codec.binary.Hex;
@@ -12,18 +13,16 @@ import javax.crypto.IllegalBlockSizeException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 
-
-
 /**
  * Created by Stokowiec on 2015-07-01.
  */
-public class RSAEncryption  implements Encrypter {
+public class RSAHelper implements Encrypter, Decrypter {
 
     private final Cipher cipher;
     private final PublicKey publicKey;
     private final PrivateKey privateKey;
 
-    public RSAEncryption(ConfigurationLoader loader) throws Exception {
+    public RSAHelper(ConfigurationLoader loader) throws Exception {
         this.cipher = Cipher.getInstance("RSA");
         this.publicKey =  loader.getPublicKey();
         this.privateKey = loader.getPrivateKey();
@@ -36,10 +35,11 @@ public class RSAEncryption  implements Encrypter {
         byte[] bytes = inputString.getBytes("UTF-8");
         byte[] encrypted = blockCipher(bytes, Cipher.ENCRYPT_MODE);
 
-        char[] encryptedTranspherable = Hex.encodeHex(encrypted);
-        return new String(encryptedTranspherable);
+        char[] encryptedTransferable = Hex.encodeHex(encrypted);
+        return new String(encryptedTransferable);
     }
 
+    @Override
     public String encryptShort(String inputString) throws Exception {
         this.cipher.init(Cipher.ENCRYPT_MODE, publicKey);
 
@@ -50,6 +50,7 @@ public class RSAEncryption  implements Encrypter {
 
     }
 
+    @Override
     public String decryptShort(String encrypted) throws Exception {
         this.cipher.init(Cipher.DECRYPT_MODE, privateKey);
 
@@ -59,6 +60,7 @@ public class RSAEncryption  implements Encrypter {
         return new String(plainBytes, "UTF-8");
     }
 
+    @Override
     public String decrypt(String encrypted) throws Exception{
         this.cipher.init(Cipher.DECRYPT_MODE, privateKey);
 
@@ -72,6 +74,7 @@ public class RSAEncryption  implements Encrypter {
         return privateKey;
     }
 
+    // USED IN LONG MESSAGE COMPRESSION
     private byte[] blockCipher(byte[] bytes, int mode) throws IllegalBlockSizeException, BadPaddingException {
         // string initialize 2 buffers.
         // scrambled will hold intermediate results
@@ -116,9 +119,6 @@ public class RSAEncryption  implements Encrypter {
 
         return toReturn;
     }
-
-
-
     private byte[] append(byte[] prefix, byte[] suffix){
         byte[] toReturn = new byte[prefix.length + suffix.length];
         for (int i=0; i< prefix.length; i++){

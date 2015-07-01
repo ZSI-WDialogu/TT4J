@@ -10,9 +10,9 @@ import TT4J.utils.CollectionUtils;
 import TT4J.utils.ExceptionUtil;
 import org.codehaus.jackson.map.ObjectMapper;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.commons.codec.binary.Base64;
 
 /**
  * Created by Stokowiec on 2015-06-30.
@@ -32,7 +32,7 @@ public class LinkProvider {
         private boolean userAdded = false;
         private boolean channelAdded = false;
 
-        public State(LinkProvider data){
+        public State(LinkProvider data) {
             this.data = data;
             this.onReady = new Event<>();
         }
@@ -52,8 +52,8 @@ public class LinkProvider {
             checkState();
         }
 
-        private void checkState(){
-            if(serverSet && userAdded && channelAdded){
+        private void checkState() {
+            if (serverSet && userAdded && channelAdded) {
                 onReady.invoke(data);
             }
         }
@@ -65,7 +65,7 @@ public class LinkProvider {
     private final ObjectMapper mapper;
     private State state;
 
-    public LinkProvider(Encrypter crypto){
+    public LinkProvider(Encrypter crypto) {
         this.mapper = new ObjectMapper();
         this.users = new ArrayList<>();
         this.channels = new ArrayList<>();
@@ -73,21 +73,27 @@ public class LinkProvider {
         this.crypto = crypto;
     }
 
-    public void register(TeamTalkClient client){
+    public void register(TeamTalkClient client) {
         client.registerForServerUpdatePacket(packet -> {
             server = packet;
             state.setServerSet(true);
         });
     }
 
-    public String getJSONConnectionSetting(String userName, int channelId, int modchannelId) throws IOException {
+    public String getJSONConnectionSetting(String userName, int channelId, int modchannelId) throws Exception {
         ExceptionUtil.require(users, "Users");
         ExceptionUtil.require(channels, "Channels");
 
-        UserData user = CollectionUtils.getFirst(users, u -> u.getUsername().equals(userName));
-        AddChannelPacket channel = CollectionUtils.getFirst(channels, c -> c.getChanid() == channelId);
+        UserData originalUser = CollectionUtils.getFirst(users, u -> u.getUsername().equals(userName));
+        UserData encryptedUser = new UserData(originalUser.getUsername(),
+                crypto.encryptShort(originalUser.getPassword()) );
 
-        return mapper.writeValueAsString(new ConnectionSettings(user, channel, server, modchannelId));
+        AddChannelPacket originalChannel = CollectionUtils.getFirst(channels, c -> c.getChanid() == channelId);
+        AddChannelPacket encryptedChannel =  new AddChannelPacket(originalChannel.getChanid(),
+                crypto.encryptShort(originalChannel.getPassword()));
+
+
+        return mapper.writeValueAsString(new ConnectionSettings(encryptedUser, encryptedChannel, server, modchannelId));
     }
 
     public void setUsers(List<UserData> users) {
@@ -100,11 +106,14 @@ public class LinkProvider {
         this.state.setChannelAdded(true);
     }
 
-    public boolean isReady(){
+    public boolean isReady() {
         return state.onReady.hasBeenInvoked();
     }
 
-    public String getEncodedConnectionString(String userName, int channelId,  int modchannelId) throws Exception {
-        return String.format(PREFIX, crypto.encrypt(getJSONConnectionSetting(userName, channelId, modchannelId)));
+    public String getEncodedConnectionString(String userName, int channelId, int modchannelId) throws Exception {
+        byte[] rawData = getJSONConnectionSetting(userName, channelId, modchannelId).getBytes();
+        return String.format(PREFIX, Base64.encodeBase64String(rawData));
     }
 }
+
+

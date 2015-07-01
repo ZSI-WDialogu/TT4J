@@ -34,6 +34,13 @@ public class UserData extends APINetworkPacket {
         this.userrights = userrights;
     }
 
+    // Copy constructor
+    public UserData(String username, String password){
+        this();
+        this.username = username;
+        this.password = password;
+    }
+
     @Override
     public String toString() {
         return String.format("username=\"%s\" password=\"%s\" usertype=%s note=\"%s\" channel=\"%s\" userrights=%s userdata=%s",

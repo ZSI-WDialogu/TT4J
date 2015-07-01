@@ -36,6 +36,12 @@ public class AddChannelPacket extends APINetworkPacket{
         super(APINetworkPacketType.ADD_CHANNEL);
     }
 
+    public AddChannelPacket(int ID, String password){
+        this();
+        this.chanid = ID;
+        this.password = password;
+    }
+
     @Override
     public String toString()
     {

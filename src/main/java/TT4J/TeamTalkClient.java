@@ -256,9 +256,11 @@ public class TeamTalkClient {
             handler.accept(packet);
         }
     }
-    private void handleUserDataPacket(APINetworkPacket packet){
+
+    private void handleUserDataPacket(APINetworkPacket packet) {
+
         UserData data = (UserData) packet;
-        if(data != null && !allUsers.contains(packet)) {
+        if (data != null && !allUsers.contains(packet)) {
             allUsers.add(data);
             onUserPacket.invoke(data);
         }

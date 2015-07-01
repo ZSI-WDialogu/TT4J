@@ -3,15 +3,14 @@ package examples.ActiveLink;
 import TT4J.TeamTalkClient;
 import TT4J.TeamTalkConnection;
 import TT4J.utils.ConfigurationLoader;
-
-import java.io.IOException;
+import TT4J.utils.encryption.RSAEncryption;
 
 /**
  * Created by Stokowiec on 2015-06-30.
  */
 public class MakeActiveLink {
 
-    public static void main(String[] args) throws IOException, InterruptedException {
+    public static void main(String[] args) throws Exception {
 
         // Load configuration from file
         ConfigurationLoader cl = new ConfigurationLoader("config.properties");
@@ -28,7 +27,9 @@ public class MakeActiveLink {
         client.registerForAddChannelPacket(System.out::println);
 
         // Set up link provider;
-        LinkProvider linkProvider = new LinkProvider();
+        LinkProvider linkProvider = new LinkProvider(
+                new RSAEncryption(cl));
+
         linkProvider.register(client);
 
         // User info
@@ -47,7 +48,7 @@ public class MakeActiveLink {
            Thread.sleep(100);
         }
 
-        System.out.println(linkProvider.getJSONConnectionSetting("user", 2));
-        System.out.println(linkProvider.getEncodedConnectionString("user", 2));
+        System.out.println(linkProvider.getJSONConnectionSetting("user", 2, 1));
+        System.out.println(linkProvider.getEncodedConnectionString("user", 2, 1));
     }
 }

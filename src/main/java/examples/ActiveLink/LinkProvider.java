@@ -2,6 +2,7 @@ package examples.ActiveLink;
 
 import TT4J.Event;
 import TT4J.TeamTalkClient;
+import TT4J.interfaces.Encrypter;
 import TT4J.packets.AddChannelPacket;
 import TT4J.packets.ServerUpdatePacket;
 import TT4J.packets.UserData;
@@ -11,7 +12,6 @@ import org.codehaus.jackson.map.ObjectMapper;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
 
 /**
@@ -20,6 +20,8 @@ import java.util.List;
 public class LinkProvider {
 
     private final static String PREFIX = "wdialogu://%s";
+
+    private Encrypter crypto;
 
     protected class State {
 
@@ -63,11 +65,12 @@ public class LinkProvider {
     private final ObjectMapper mapper;
     private State state;
 
-    public LinkProvider(){
-        mapper = new ObjectMapper();
-        users = new ArrayList<>();
-        channels = new ArrayList<>();
-        state = new State(this);
+    public LinkProvider(Encrypter crypto){
+        this.mapper = new ObjectMapper();
+        this.users = new ArrayList<>();
+        this.channels = new ArrayList<>();
+        this.state = new State(this);
+        this.crypto = crypto;
     }
 
     public void register(TeamTalkClient client){
@@ -77,14 +80,14 @@ public class LinkProvider {
         });
     }
 
-    public String getJSONConnectionSetting(String userName, int channelId) throws IOException {
+    public String getJSONConnectionSetting(String userName, int channelId, int modchannelId) throws IOException {
         ExceptionUtil.require(users, "Users");
         ExceptionUtil.require(channels, "Channels");
 
         UserData user = CollectionUtils.getFirst(users, u -> u.getUsername().equals(userName));
         AddChannelPacket channel = CollectionUtils.getFirst(channels, c -> c.getChanid() == channelId);
 
-        return mapper.writeValueAsString(new ConnectionSettings(user, channel, server));
+        return mapper.writeValueAsString(new ConnectionSettings(user, channel, server, modchannelId));
     }
 
     public void setUsers(List<UserData> users) {
@@ -101,11 +104,7 @@ public class LinkProvider {
         return state.onReady.hasBeenInvoked();
     }
 
-    public String getEncodedConnectionString(String userName, int channelId) throws IOException {
-        return String.format(PREFIX, encode(getJSONConnectionSetting(userName, channelId)));
-    }
-
-    private String encode(String data){
-        return Base64.getEncoder().encodeToString(data.getBytes());
+    public String getEncodedConnectionString(String userName, int channelId,  int modchannelId) throws Exception {
+        return String.format(PREFIX, crypto.encrypt(getJSONConnectionSetting(userName, channelId, modchannelId)));
     }
 }

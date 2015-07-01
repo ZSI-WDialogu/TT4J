@@ -22,9 +22,12 @@ public class ConnectionSettings{
     @JsonSerialize(using = ServerUpdatePacketSerializer.class)
     ServerUpdatePacket Server;
 
-    public ConnectionSettings(UserData user, AddChannelPacket channel, ServerUpdatePacket server){
+    int ModeratorChannelID;
+
+    public ConnectionSettings(UserData user, AddChannelPacket channel, ServerUpdatePacket server, int moderatorChannelID ){
         this.User = user;
         this.Channel = channel;
         this.Server = server;
+        this.ModeratorChannelID = moderatorChannelID;
     }
 }

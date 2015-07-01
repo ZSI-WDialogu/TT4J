@@ -1,7 +1,12 @@
 package TT4J.utils;
 
+import TT4J.utils.encryption.PrivateKeyHelper;
+import TT4J.utils.encryption.PublicKeyHelper;
+
 import java.io.IOException;
 import java.io.InputStream;
+import java.security.PrivateKey;
+import java.security.PublicKey;
 import java.util.Properties;
 
 /**
@@ -17,6 +22,9 @@ public class ConfigurationLoader {
     private String hostName;
     private int port;
     private boolean encrypted;
+
+    private PrivateKey privateKey;
+    private PublicKey publicKey;
 
     public ConfigurationLoader(String filePath){
         this.filePath = filePath;
@@ -40,7 +48,14 @@ public class ConfigurationLoader {
             this.port =  Integer.valueOf(prop.getProperty("port"));
             this.encrypted = Boolean.valueOf(prop.getProperty("encrypted"));
 
-        } catch (IOException ex) {
+
+            this.privateKey = PrivateKeyHelper.read(
+                    classLoader.getResourceAsStream("keys\\private.key"));
+
+            this.publicKey = PublicKeyHelper.read(
+                    classLoader.getResourceAsStream("keys\\public.key"));
+
+        } catch (Exception ex) {
             ex.printStackTrace();
         } finally {
             if (input != null) {
@@ -63,5 +78,13 @@ public class ConfigurationLoader {
 
     public boolean isEncrypted() {
         return encrypted;
+    }
+
+    public PrivateKey getPrivateKey() {
+        return privateKey;
+    }
+
+    public PublicKey getPublicKey() {
+        return publicKey;
     }
 }

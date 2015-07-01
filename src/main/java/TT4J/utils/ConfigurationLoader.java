@@ -10,7 +10,6 @@ import java.util.Properties;
 public class ConfigurationLoader {
 
     private String filePath;
-
     private String hostName;
     private int port;
     private boolean encrypted;

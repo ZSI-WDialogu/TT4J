@@ -2,14 +2,12 @@ import TT4J.utils.ConfigurationLoader;
 import TT4J.utils.encryption.PrivateKeyHelper;
 import TT4J.utils.encryption.PublicKeyHelper;
 import TT4J.utils.encryption.RSAEncryption;
-import org.apache.commons.codec.binary.Base64;
+
 import org.junit.Test;
 
 import java.io.File;
-import java.math.BigInteger;
 import java.security.*;
-import java.security.cert.Extension;
-import java.security.interfaces.RSAPrivateCrtKey;
+
 
 /**
  * Created by Stokowiec on 2015-07-01.
@@ -64,7 +62,7 @@ public class RSATests {
         ConfigurationLoader loader = new ConfigurationLoader("config.properties");
         RSAEncryption rsa = new RSAEncryption(loader);
 
-        String rawString =  "Hello!";
+        String rawString =  "Hello!Hello!Hello!Hello!Hello!Hello!Hello!Hello!Hello!Hello!Hello!Hello!Hello!Hello!Hello!Hello!Hello!Hello!Hello!Hello!Hello!Hello!Hello!Hello!Hello!Hello!Hello!Hello!Hello!Hello!Hello!Hello!Hello!Hello!Hello!";
         String encoded = rsa.encryptShort(rawString);
         String decoded = rsa.decryptShort(encoded);
 

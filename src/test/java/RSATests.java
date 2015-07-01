@@ -54,6 +54,22 @@ public class RSATests {
         System.out.println(encoded);
         System.out.println(decoded);
 
+        assert(rawString.equals(decoded));
+
+    }
+
+    @Test
+    public void testShortRSA() throws Exception {
+
+        ConfigurationLoader loader = new ConfigurationLoader("config.properties");
+        RSAEncryption rsa = new RSAEncryption(loader);
+
+        String rawString =  "Hello!";
+        String encoded = rsa.encryptShort(rawString);
+        String decoded = rsa.decryptShort(encoded);
+
+        System.out.println(encoded);
+        System.out.println(decoded);
 
         assert(rawString.equals(decoded));
 

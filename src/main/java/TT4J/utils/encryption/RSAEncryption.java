@@ -3,6 +3,7 @@ package TT4J.utils.encryption;
 import TT4J.interfaces.Encrypter;
 import TT4J.utils.ConfigurationLoader;
 import org.apache.commons.codec.binary.Hex;
+import org.apache.commons.codec.binary.Base64;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -37,11 +38,30 @@ public class RSAEncryption  implements Encrypter {
         return new String(encryptedTranspherable);
     }
 
+    public String encryptShort(String inputString) throws Exception {
+        this.cipher.init(Cipher.ENCRYPT_MODE, publicKey);
+
+        byte[] bytes = inputString.getBytes("UTF-8");
+        byte[] cipherData = cipher.doFinal(bytes);
+        byte[] encryptedString = Base64.encodeBase64(cipherData);
+        return new String(encryptedString);
+
+    }
+
+    public String decryptShort(String encrypted) throws Exception {
+        this.cipher.init(Cipher.DECRYPT_MODE, privateKey);
+
+        byte[] cipherData = Base64.decodeBase64(encrypted);
+        byte[] plainBytes = cipher.doFinal(cipherData);
+
+        return new String(plainBytes, "UTF-8");
+    }
+
     public String decrypt(String encrypted) throws Exception{
         this.cipher.init(Cipher.DECRYPT_MODE, privateKey);
 
         byte[] bts = Hex.decodeHex(encrypted.toCharArray());
-        byte[] decrypted = blockCipher(bts,Cipher.DECRYPT_MODE);
+        byte[] decrypted = blockCipher(bts, Cipher.DECRYPT_MODE);
 
         return new String(decrypted,"UTF-8");
     }

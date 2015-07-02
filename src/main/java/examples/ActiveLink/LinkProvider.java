@@ -84,16 +84,12 @@ public class LinkProvider {
         ExceptionUtil.require(users, "Users");
         ExceptionUtil.require(channels, "Channels");
 
-        UserData originalUser = CollectionUtils.getFirst(users, u -> u.getUsername().equals(userName));
-        UserData encryptedUser = new UserData(originalUser.getUsername(),
-                crypto.encryptShort(originalUser.getPassword()) );
+        UserData encryptedUser = encryptUser(userName);
+        AddChannelPacket encStartUpChannel = encryptChannel(channelId);
+        AddChannelPacket encModeratorChannel = encryptChannel(modchannelId);
 
-        AddChannelPacket originalChannel = CollectionUtils.getFirst(channels, c -> c.getChanid() == channelId);
-        AddChannelPacket encryptedChannel =  new AddChannelPacket(originalChannel.getChanid(),
-                crypto.encryptShort(originalChannel.getPassword()));
-
-
-        return mapper.writeValueAsString(new ConnectionSettings(encryptedUser, encryptedChannel, server, modchannelId));
+        return mapper.writeValueAsString(
+                new ConnectionSettings(encryptedUser, encStartUpChannel, encModeratorChannel, server));
     }
 
     public void setUsers(List<UserData> users) {
@@ -113,6 +109,19 @@ public class LinkProvider {
     public String getEncodedConnectionString(String userName, int channelId, int modchannelId) throws Exception {
         byte[] rawData = getJSONConnectionSetting(userName, channelId, modchannelId).getBytes();
         return String.format(PREFIX, Base64.encodeBase64String(rawData));
+    }
+
+    //TODO: refactor this code
+    private UserData encryptUser(String userName) throws Exception {
+        UserData originalUser = CollectionUtils.getFirst(users, u -> u.getUsername().equals(userName));
+        return new UserData(originalUser.getUsername(),
+                crypto.encryptShort(originalUser.getPassword()) );
+    }
+
+    private AddChannelPacket encryptChannel(int channelId) throws Exception {
+        AddChannelPacket originalChannel = CollectionUtils.getFirst(channels, c -> c.getChanid() == channelId);
+        return new AddChannelPacket(originalChannel.getChanid(),
+                crypto.encryptShort(originalChannel.getPassword()));
     }
 }
 

@@ -17,17 +17,21 @@ public class ConnectionSettings{
     UserData User;
 
     @JsonSerialize(using = AddChannelPacketSerializer.class)
-    AddChannelPacket Channel;
+    AddChannelPacket StartUpChannel;
+
+    @JsonSerialize(using = AddChannelPacketSerializer.class)
+    AddChannelPacket ModeratorChannel;
 
     @JsonSerialize(using = ServerUpdatePacketSerializer.class)
     ServerUpdatePacket Server;
 
-    int ModeratorChannelID;
-
-    public ConnectionSettings(UserData user, AddChannelPacket channel, ServerUpdatePacket server, int moderatorChannelID ){
+    public ConnectionSettings(UserData user,
+                              AddChannelPacket startUpChannel,
+                              AddChannelPacket moderatorChannel,
+                              ServerUpdatePacket server){
         this.User = user;
-        this.Channel = channel;
+        this.StartUpChannel = startUpChannel;
+        this.ModeratorChannel = moderatorChannel;
         this.Server = server;
-        this.ModeratorChannelID = moderatorChannelID;
     }
 }

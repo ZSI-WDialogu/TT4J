@@ -48,7 +48,7 @@ public class MakeActiveLink {
            Thread.sleep(100);
         }
 
-        System.out.println(linkProvider.getJSONConnectionSetting("user", 2, 1));
-        System.out.println(linkProvider.getEncodedConnectionString("user", 2, 1));
+        System.out.println(linkProvider.getJSONConnectionSetting("user", 1, 2));
+        System.out.println(linkProvider.getEncodedConnectionString("user", 1, 2));
     }
 }

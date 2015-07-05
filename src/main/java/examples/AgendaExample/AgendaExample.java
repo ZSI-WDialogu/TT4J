@@ -6,17 +6,36 @@ import TT4J.utils.ConfigurationLoader;
 import TT4J.utils.encryption.RSAHelper;
 import examples.ActiveLink.LinkProvider;
 
+import static com.tutego.jrtf.Rtf.rtf;
+import static com.tutego.jrtf.RtfPara.p;
+import static com.tutego.jrtf.RtfText.*;
+
 /**
  * Created by Stokowiec on 2015-07-01.
  */
 public class AgendaExample {
 
-    public class Agenda {
+    public static class RTF {
+        //https://github.com/ullenboom/jrtf
+        public static String example() {
+            return rtf().section(
+                    p( "First paragraph" ),
+                    p( tab(),
+                            "Second par ",
+                            bold( "with something in bold" ),
+                            text( " and " ),
+                            italic( underline( "italic underline" ) )
+                    )
+            ).toString();
+        }
+    }
 
-//        public String makeFromString(String text) throws Exception {
-//            String agenda = StringCompression.decompressFromString(text);
-//            return String.format("AGENDA:%s", agenda);
-//        }
+    public static class Agenda {
+
+        public static String fromString(String text) throws Exception {
+            String agenda = StringCompression.compressToStringCSharp(text);
+            return String.format("AGENDA:%s", agenda);
+        }
     }
 
     public static void main(String[] args) throws Exception {
@@ -49,7 +68,7 @@ public class AgendaExample {
         System.out.println("Connecting: " + client.connect());
         System.out.println("Logging: " + client.login(nick, username, password));
 
-        client.sendMessage(1, "AGENDA: Message to channel!");
+        client.sendMessage(1, Agenda.fromString(RTF.example()));
 
     }
 

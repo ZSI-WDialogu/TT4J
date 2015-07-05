@@ -8,11 +8,11 @@ import TT4J.packets.ServerUpdatePacket;
 import TT4J.packets.UserData;
 import TT4J.utils.CollectionUtils;
 import TT4J.utils.ExceptionUtil;
+import org.apache.commons.codec.binary.Base64;
 import org.codehaus.jackson.map.ObjectMapper;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.commons.codec.binary.Base64;
 
 /**
  * Created by Stokowiec on 2015-06-30.

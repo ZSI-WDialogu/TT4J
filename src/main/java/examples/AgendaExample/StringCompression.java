@@ -1,12 +1,12 @@
 package examples.AgendaExample;
 
+import org.apache.commons.codec.binary.Base64;
+
 import java.io.*;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
-import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.codec.binary.StringUtils;
 
 /**
  * Created by Stokowiec on 2015-07-01.

@@ -2,11 +2,13 @@ import TT4J.utils.ConfigurationLoader;
 import TT4J.utils.encryption.PrivateKeyHelper;
 import TT4J.utils.encryption.PublicKeyHelper;
 import TT4J.utils.encryption.RSAHelper;
-
 import org.junit.Test;
 
 import java.io.File;
-import java.security.*;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.PrivateKey;
+import java.security.PublicKey;
 
 
 /**

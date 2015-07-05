@@ -13,6 +13,14 @@ import java.util.zip.GZIPOutputStream;
  */
 public class StringCompression {
 
+    public static byte[] compress(String text) throws Exception {
+        if (text == null || text.length() == 0) {
+            return new byte[]{};
+        }
+        byte[] buffer = text.getBytes("UTF-8");
+
+        return getBytes(buffer);
+    }
     public static String decompress(byte[] bytes) throws Exception {
 
         GZIPInputStream gis = new GZIPInputStream(new ByteArrayInputStream(bytes));
@@ -23,15 +31,6 @@ public class StringCompression {
             outStr += line;
         }
         return outStr;
-    }
-
-    public static byte[] compress(String text) throws Exception {
-        if (text == null || text.length() == 0) {
-            return new byte[]{};
-        }
-        byte[] buffer = text.getBytes("UTF-8");
-
-        return getBytes(buffer);
     }
 
     public static String compressToStringCSharp(String text) throws Exception {
@@ -45,13 +44,11 @@ public class StringCompression {
 
         return Base64.encodeBase64String(gZipBuffer);
     }
-
-
     public static String decompressFromCSharp(String compressedText) throws Exception {
         byte[] compressed = compressedText.getBytes("UTF8");
-        compressed = org.apache.commons.codec.binary.Base64.decodeBase64(compressed);
+        compressed = Base64.decodeBase64(compressed);
         byte[] buffer=new byte[compressed.length-4];
-        buffer = copyForDecompression(compressed, buffer, 4, 0);
+        System.arraycopy(compressed, 4, buffer, 0, compressed.length - 4);
 
         final int BUFFER_SIZE = 32;
         ByteArrayInputStream is = new ByteArrayInputStream(buffer);
@@ -70,21 +67,11 @@ public class StringCompression {
         return string.toString();
     }
 
-    private static  byte[] copyForDecompression(byte[] b1 ,byte[] b2, int srcoffset, int dstoffset)
-    {
-        for(int i=0;i<b2.length && i<b1.length;i++)
-        {
-            b2[i]=b1[i+4];
-        }
-        return b2;
-    }
-
     private static byte[] getBytes(int value) {
         ByteBuffer buffer = ByteBuffer.allocate(4).order(ByteOrder.LITTLE_ENDIAN);
         buffer.putInt(value);
         return buffer.array();
     }
-
     private static byte[] getBytes(byte[] buffer) throws IOException {
         ByteArrayOutputStream obj=new ByteArrayOutputStream();
         GZIPOutputStream gzip = new GZIPOutputStream(obj);

@@ -1,13 +1,12 @@
-package TT4J.utils;
+package examples.AgendaExample;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStreamReader;
-import java.util.zip.Deflater;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
-import java.util.zip.Inflater;
+import org.apache.commons.codec.binary.Base64;
 
 /**
  * Created by Stokowiec on 2015-07-01.
@@ -24,6 +23,14 @@ public class StringCompression {
         return obj.toByteArray();
     }
 
+    public static String compressToString(String str) throws Exception {
+        return Base64.encodeBase64String(compress(str));
+    }
+
+    public static String decompressFromString(String str) throws Exception {
+        byte[] decoded = Base64.decodeBase64(str.getBytes());
+        return  decompress(decoded);
+    }
 
     public static String decompress(byte[] bytes) throws Exception {
 

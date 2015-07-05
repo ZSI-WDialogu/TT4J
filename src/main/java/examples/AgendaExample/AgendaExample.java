@@ -13,10 +13,10 @@ public class AgendaExample {
 
     public class Agenda {
 
-        public String makeFromString(String text) throws Exception {
-            String agenda = StringCompression.decompressFromString(text);
-            return String.format("AGENDA:%s", agenda);
-        }
+//        public String makeFromString(String text) throws Exception {
+//            String agenda = StringCompression.decompressFromString(text);
+//            return String.format("AGENDA:%s", agenda);
+//        }
     }
 
     public static void main(String[] args) throws Exception {

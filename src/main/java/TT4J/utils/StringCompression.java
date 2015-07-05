@@ -1,4 +1,4 @@
-package examples.AgendaExample;
+package TT4J.utils;
 
 import org.apache.commons.codec.binary.Base64;
 
@@ -69,9 +69,6 @@ public class StringCompression {
         is.close();
         return string.toString();
     }
-
-
-
 
     private static  byte[] copyForDecompression(byte[] b1 ,byte[] b2, int srcoffset, int dstoffset)
     {

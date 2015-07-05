@@ -1,4 +1,4 @@
-import examples.AgendaExample.StringCompression;
+import TT4J.utils.StringCompression;
 import org.junit.Test;
 
 /**

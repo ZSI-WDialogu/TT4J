@@ -1,8 +1,9 @@
-package examples.AgendaExample;
+package examples;
 
 import TT4J.TeamTalkClient;
 import TT4J.TeamTalkConnection;
 import TT4J.utils.ConfigurationLoader;
+import TT4J.utils.StringCompression;
 import TT4J.utils.encryption.RSAHelper;
 import examples.ActiveLink.LinkProvider;
 
@@ -31,10 +32,8 @@ public class AgendaExample {
     }
 
     public static class Agenda {
-
         public static String fromString(String text) throws Exception {
-            String agenda = StringCompression.compressToStringCSharp(text);
-            return String.format("AGENDA:%s", agenda);
+            return String.format("AGENDA:%s", StringCompression.compressToStringCSharp(text));
         }
     }
 
@@ -47,17 +46,11 @@ public class AgendaExample {
         String hostName = cl.getHostName();
         int port = cl.getPort();
 
-        TeamTalkClient client = new TeamTalkClient(
-                new TeamTalkConnection(hostName, port));
-
-        client.registerForAccepted(System.out::println);
-        client.registerForAddUserPacket(System.out::println);
-        client.registerForAddChannelPacket(System.out::println);
+        // Create client
+        TeamTalkClient client = new TeamTalkClient(new TeamTalkConnection(hostName, port));
 
         // Set up link provider;
-        LinkProvider linkProvider = new LinkProvider(
-                new RSAHelper(cl));
-
+        LinkProvider linkProvider = new LinkProvider(new RSAHelper(cl));
         linkProvider.register(client);
 
         // User info
@@ -68,7 +61,12 @@ public class AgendaExample {
         System.out.println("Connecting: " + client.connect());
         System.out.println("Logging: " + client.login(nick, username, password));
 
-        client.sendMessage(1, Agenda.fromString(RTF.example()));
+        // First we have to create agenda in rtf format
+        String rtf = RTF.example();
+
+        // Secondly we have to sent appropriate message
+        // To this end: compress string, and prepend it with "AGENDA:"
+        client.sendMessage(1, Agenda.fromString(rtf));
 
     }
 

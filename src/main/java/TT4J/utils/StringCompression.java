@@ -33,7 +33,7 @@ public class StringCompression {
         return outStr;
     }
 
-    public static String compressToStringCSharp(String text) throws Exception {
+    public static String compressCsCompatible(String text) throws Exception {
 
         byte[] buffer = text.getBytes("UTF-8");
         byte[] compressedData = getBytes(buffer);
@@ -44,7 +44,7 @@ public class StringCompression {
 
         return Base64.encodeBase64String(gZipBuffer);
     }
-    public static String decompressFromCSharp(String compressedText) throws Exception {
+    public static String decompressCsCompatible(String compressedText) throws Exception {
         byte[] compressed = compressedText.getBytes("UTF8");
         compressed = Base64.decodeBase64(compressed);
         byte[] buffer=new byte[compressed.length-4];

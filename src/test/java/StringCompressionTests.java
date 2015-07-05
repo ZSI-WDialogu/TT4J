@@ -23,8 +23,8 @@ public class StringCompressionTests {
     public void is_able_to_compress_and_decompressCSharp() throws Exception {
 
         String rawString =  "\"{\\\"User\\\":{\\\"Nick\\\":\\\"user\\\",\\\"Login\\\":\\\"user\\\",\\\"Password\\\":\\\"password\\\"},\\\"Channel\\\":{\\\"ID\\\":2,\\\"Password\\\":\\\"test123\\\"},\\\"Server\\\":{\\\"IP\\\":\\\"153.19.141.166\\\",\\\"TCPPort\\\":7077,\\\"UDPPort\\\":7077,\\\"LocalTcpPort\\\":7077,\\\"LocalUdpPort\\\":7077,\\\"Encrypted\\\":false}}\"";
-        String compressed = StringCompression.compressToStringCSharp(rawString);
-        String decompressed = StringCompression.decompressFromCSharp(compressed);
+        String compressed = StringCompression.compressCsCompatible(rawString);
+        String decompressed = StringCompression.decompressCsCompatible(compressed);
 
         assert (decompressed.equals(rawString));
     }

@@ -33,7 +33,7 @@ public class AgendaExample {
 
     public static class Agenda {
         public static String fromString(String text) throws Exception {
-            return String.format("AGENDA:%s", StringCompression.compressToStringCSharp(text));
+            return String.format("AGENDA:%s", StringCompression.compressCsCompatible(text));
         }
     }
 

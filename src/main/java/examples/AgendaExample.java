@@ -3,6 +3,7 @@ package examples;
 import TT4J.TeamTalkClient;
 import TT4J.TeamTalkConnection;
 import TT4J.utils.ConfigurationLoader;
+import TT4J.utils.RESTClient;
 import TT4J.utils.StringCompression;
 import TT4J.utils.encryption.RSAHelper;
 import examples.ActiveLink.LinkProvider;
@@ -43,14 +44,17 @@ public class AgendaExample {
         ConfigurationLoader cl = new ConfigurationLoader("config.properties");
 
         // Server connectivity info
-        String hostName = cl.getHostName();
-        int port = cl.getPort();
+        String hostName = cl.getTtHostName();
+        int port = cl.getTtPort();
 
         // Create client
         TeamTalkClient client = new TeamTalkClient(new TeamTalkConnection(hostName, port));
 
         // Set up link provider;
-        LinkProvider linkProvider = new LinkProvider(new RSAHelper(cl));
+        LinkProvider linkProvider = new LinkProvider(
+                new RSAHelper(cl),
+                new RESTClient(cl.getRestHostName(), cl.getRestPort()));
+
         linkProvider.register(client);
 
         // User info

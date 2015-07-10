@@ -50,7 +50,7 @@ public class MakeActiveLink {
            Thread.sleep(100);
         }
 
-        String userName = "user";
+        String userName = "a1";
         int channelID = 1;
         int moderatorChannelID = 2;
 

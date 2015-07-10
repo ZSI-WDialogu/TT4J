@@ -20,7 +20,7 @@ import java.util.List;
  */
 public class LinkProvider {
 
-    private final static String PREFIX = "wdialogu://%s";
+    private final static String PREFIX = "wdialogu://%s/%s";
 
     private Encrypter crypto;
     private RESTClient client;
@@ -102,8 +102,9 @@ public class LinkProvider {
 
         String connectionString = Base64.encodeBase64String(rawData);
         String uuid = RESTClient.handleResponse(client.postLink(connectionString)).get(0);
+        String resourcePath = client.getResourcePath();
 
-        return String.format(PREFIX, uuid);
+        return String.format(PREFIX, resourcePath, uuid);
     }
 
     private String getJSONConnectionSetting(String userName, int channelId, int modchannelId) throws Exception {

@@ -20,8 +20,8 @@ import java.util.List;
  */
 public class RESTClient {
 
-    private static final String GET_PATH = "TT4J/activelink/GET";
-    private static final String POST_PATH = "TT4J/activelink/POST";
+    private static final String GET_PATH = "TT4J";
+    private static final String POST_PATH = "TT4J/add";
 
     private HttpClient httpClient;
     private String hostName;
@@ -32,7 +32,6 @@ public class RESTClient {
         this.port = port;
         this.httpClient = HttpClientBuilder.create().build();;
     }
-
 
     public HttpResponse getLink(String id) throws IOException {
         String request = String.format("%s:%s/%s/%s", hostName, port, GET_PATH, id);
@@ -49,6 +48,10 @@ public class RESTClient {
         postRequest.setEntity(new StringEntity(link));
 
         return httpClient.execute(postRequest);
+    }
+
+    public String getResourcePath(){
+        return String.format("%s:%s/%s", hostName, port, GET_PATH);
     }
 
     public static List<String> handleResponse(HttpResponse response) throws IOException {

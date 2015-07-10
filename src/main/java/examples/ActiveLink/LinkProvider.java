@@ -8,11 +8,12 @@ import TT4J.packets.ServerUpdatePacket;
 import TT4J.packets.UserData;
 import TT4J.utils.CollectionUtils;
 import TT4J.utils.ExceptionUtil;
+import TT4J.utils.RESTClient;
+import org.apache.commons.codec.binary.Base64;
 import org.codehaus.jackson.map.ObjectMapper;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.commons.codec.binary.Base64;
 
 /**
  * Created by Stokowiec on 2015-06-30.
@@ -22,6 +23,7 @@ public class LinkProvider {
     private final static String PREFIX = "wdialogu://%s";
 
     private Encrypter crypto;
+    private RESTClient client;
 
     protected class State {
 
@@ -65,7 +67,8 @@ public class LinkProvider {
     private final ObjectMapper mapper;
     private State state;
 
-    public LinkProvider(Encrypter crypto) {
+    public LinkProvider(Encrypter crypto, RESTClient client) {
+        this.client = client;
         this.mapper = new ObjectMapper();
         this.users = new ArrayList<>();
         this.channels = new ArrayList<>();
@@ -78,18 +81,6 @@ public class LinkProvider {
             server = packet;
             state.setServerSet(true);
         });
-    }
-
-    public String getJSONConnectionSetting(String userName, int channelId, int modchannelId) throws Exception {
-        ExceptionUtil.require(users, "Users");
-        ExceptionUtil.require(channels, "Channels");
-
-        UserData encryptedUser = encryptUser(userName);
-        AddChannelPacket encStartUpChannel = encryptChannel(channelId);
-        AddChannelPacket encModeratorChannel = encryptChannel(modchannelId);
-
-        return mapper.writeValueAsString(
-                new ConnectionSettings(encryptedUser, encStartUpChannel, encModeratorChannel, server));
     }
 
     public void setUsers(List<UserData> users) {
@@ -108,10 +99,25 @@ public class LinkProvider {
 
     public String getEncodedConnectionString(String userName, int channelId, int modchannelId) throws Exception {
         byte[] rawData = getJSONConnectionSetting(userName, channelId, modchannelId).getBytes();
-        return String.format(PREFIX, Base64.encodeBase64String(rawData));
+
+        String connectionString = Base64.encodeBase64String(rawData);
+        String uuid = RESTClient.handleResponse(client.postLink(connectionString)).get(0);
+
+        return String.format(PREFIX, uuid);
     }
 
-    //TODO: refactor this code
+    private String getJSONConnectionSetting(String userName, int channelId, int modchannelId) throws Exception {
+        ExceptionUtil.require(users, "Users");
+        ExceptionUtil.require(channels, "Channels");
+
+        UserData encryptedUser = encryptUser(userName);
+        AddChannelPacket encStartUpChannel = encryptChannel(channelId);
+        AddChannelPacket encModeratorChannel = encryptChannel(modchannelId);
+
+        return mapper.writeValueAsString(
+                new ConnectionSettings(encryptedUser, encStartUpChannel, encModeratorChannel, server));
+    }
+
     private UserData encryptUser(String userName) throws Exception {
         UserData originalUser = CollectionUtils.getFirst(users, u -> u.getUsername().equals(userName));
         return new UserData(originalUser.getUsername(),

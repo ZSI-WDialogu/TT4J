@@ -19,9 +19,11 @@ import java.util.Properties;
 public class ConfigurationLoader {
 
     private String filePath;
-    private String hostName;
-    private int port;
-    private boolean encrypted;
+    private String ttHostName;
+    private int ttPort;
+    private boolean ttEncrypted;
+    private String restHostName;
+    private int restPort;
 
     private PrivateKey privateKey;
     private PublicKey publicKey;
@@ -43,11 +45,15 @@ public class ConfigurationLoader {
             // load a properties file
             prop.load(input);
 
-            // get the property value and print it out
-            this.hostName = prop.getProperty("hostname");
-            this.port =  Integer.valueOf(prop.getProperty("port"));
-            this.encrypted = Boolean.valueOf(prop.getProperty("encrypted"));
+            // get configuration of Team Talk server
+            this.ttHostName = prop.getProperty("tt4j-hostname");
+            this.ttPort =  Integer.valueOf(prop.getProperty("tt4j-port"));
+            this.ttEncrypted = Boolean.valueOf(prop.getProperty("tt4j-encrypted"));
 
+
+            // get configuration of REST SERVER
+            this.restHostName = prop.getProperty("rest-hostname");
+            this.restPort =  Integer.valueOf(prop.getProperty("rest-port"));
 
             this.privateKey = PrivateKeyHelper.read(
                     classLoader.getResourceAsStream("keys\\private.key"));
@@ -68,16 +74,16 @@ public class ConfigurationLoader {
         }
     }
 
-    public String getHostName() {
-        return hostName;
+    public String getTtHostName() {
+        return ttHostName;
     }
 
-    public int getPort() {
-        return port;
+    public int getTtPort() {
+        return ttPort;
     }
 
-    public boolean isEncrypted() {
-        return encrypted;
+    public boolean isTtEncrypted() {
+        return ttEncrypted;
     }
 
     public PrivateKey getPrivateKey() {
@@ -86,5 +92,13 @@ public class ConfigurationLoader {
 
     public PublicKey getPublicKey() {
         return publicKey;
+    }
+
+    public String getRestHostName() {
+        return restHostName;
+    }
+
+    public int getRestPort() {
+        return restPort;
     }
 }

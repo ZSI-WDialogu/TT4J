@@ -21,12 +21,12 @@ public class ServerUpdatePacketSerializer extends JsonSerializer<ServerUpdatePac
         ConfigurationLoader cl = new ConfigurationLoader("config.properties");
 
         jgen.writeStartObject();
-        jgen.writeStringField("IP",cl.getHostName());
+        jgen.writeStringField("IP",cl.getTtHostName());
         jgen.writeNumberField("TCPPort", value.getTcpport());
         jgen.writeNumberField("UDPPort", value.getUdpport());
         jgen.writeNumberField("LocalTcpPort", value.getTcpport());
         jgen.writeNumberField("LocalUdpPort", value.getUdpport());
-        jgen.writeBooleanField("Encrypted", cl.isEncrypted());
+        jgen.writeBooleanField("Encrypted", cl.isTtEncrypted());
 
         jgen.writeEndObject();
 

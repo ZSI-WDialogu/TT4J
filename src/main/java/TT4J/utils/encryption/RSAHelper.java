@@ -3,13 +3,12 @@ package TT4J.utils.encryption;
 import TT4J.interfaces.Decrypter;
 import TT4J.interfaces.Encrypter;
 import TT4J.utils.ConfigurationLoader;
-import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.codec.binary.Hex;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
-
 import java.security.PrivateKey;
 import java.security.PublicKey;
 

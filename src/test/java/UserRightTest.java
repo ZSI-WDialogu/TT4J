@@ -22,8 +22,8 @@ public class UserRightTest {
         ConfigurationLoader conf = new ConfigurationLoader("config.properties");
 
         // Server info
-        String hostName = conf.getHostName();
-        int portNumber = conf.getPort();
+        String hostName = conf.getTtHostName();
+        int portNumber = conf.getTtPort();
 
         // User info
         String username = "";
@@ -46,7 +46,6 @@ public class UserRightTest {
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
-
     }
 
     private static  Map<String, Integer> getRights() throws IllegalAccessException {
@@ -59,7 +58,6 @@ public class UserRightTest {
                 rights.put(name, value);
             }
         }
-
         return MapUtil.sortByValue(rights);
     }
 }

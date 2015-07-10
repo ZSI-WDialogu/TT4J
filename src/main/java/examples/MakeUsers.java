@@ -15,8 +15,8 @@ public class MakeUsers {
         ConfigurationLoader cl = new ConfigurationLoader("config.properties");
 
         // Server connectivity info
-        String hostName = cl.getHostName();
-        int port = cl.getPort();
+        String hostName = cl.getTtHostName();
+        int port = cl.getTtPort();
 
         // User info
         String username = "user";

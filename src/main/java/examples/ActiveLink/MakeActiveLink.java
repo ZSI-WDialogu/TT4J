@@ -3,6 +3,7 @@ package examples.ActiveLink;
 import TT4J.TeamTalkClient;
 import TT4J.TeamTalkConnection;
 import TT4J.utils.ConfigurationLoader;
+import TT4J.utils.RESTClient;
 import TT4J.utils.encryption.RSAHelper;
 
 /**
@@ -16,8 +17,8 @@ public class MakeActiveLink {
         ConfigurationLoader cl = new ConfigurationLoader("config.properties");
 
         // Server connectivity info
-        String hostName = cl.getHostName();
-        int port = cl.getPort();
+        String hostName = cl.getTtHostName();
+        int port = cl.getTtPort();
 
         TeamTalkClient client = new TeamTalkClient(
                 new TeamTalkConnection(hostName, port));
@@ -28,7 +29,8 @@ public class MakeActiveLink {
 
         // Set up link provider;
         LinkProvider linkProvider = new LinkProvider(
-                new RSAHelper(cl));
+                new RSAHelper(cl),
+                new RESTClient(cl.getRestHostName(), cl.getRestPort()));
 
         linkProvider.register(client);
 
@@ -48,7 +50,10 @@ public class MakeActiveLink {
            Thread.sleep(100);
         }
 
-        System.out.println(linkProvider.getJSONConnectionSetting("user", 1, 2));
-        System.out.println(linkProvider.getEncodedConnectionString("user", 1, 2));
+        String userName = "user";
+        int channelID = 1;
+        int moderatorChannelID = 2;
+
+        System.out.println(linkProvider.getEncodedConnectionString(userName, channelID, moderatorChannelID));
     }
 }

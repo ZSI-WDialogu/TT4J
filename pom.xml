@@ -66,6 +66,12 @@
             <version>1.10</version>
         </dependency>
 
+        <!-- RTF Handling-->
+        <dependency>
+            <groupId>com.tutego</groupId>
+            <artifactId>jrtf</artifactId>
+            <version>0.7</version>
+        </dependency>
         <!--REST CLIENT-->
         <dependency>
             <groupId>com.sun.jersey</groupId>
@@ -92,6 +98,7 @@
             <artifactId>json</artifactId>
             <version>20141113</version>
         </dependency>
+
 
 
     </dependencies>

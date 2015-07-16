@@ -52,7 +52,7 @@ public class AgendaExample {
 
         // Set up link provider;
         LinkProvider linkProvider = new LinkProvider(
-                new RSAHelper(cl),
+                new RSAHelper(cl.getPublicKey(), cl.getPrivateKey()),
                 new RESTClient(cl.getRestHostName(), cl.getRestPort()));
 
         linkProvider.register(client);

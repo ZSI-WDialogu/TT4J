@@ -2,7 +2,6 @@ package TT4J.utils.encryption;
 
 import TT4J.interfaces.Decrypter;
 import TT4J.interfaces.Encrypter;
-import TT4J.utils.ConfigurationLoader;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.binary.Hex;
 
@@ -21,10 +20,10 @@ public class RSAHelper implements Encrypter, Decrypter {
     private final PublicKey publicKey;
     private final PrivateKey privateKey;
 
-    public RSAHelper(ConfigurationLoader loader) throws Exception {
+    public RSAHelper(PublicKey publicKey, PrivateKey privateKey) throws Exception {
         this.cipher = Cipher.getInstance("RSA");
-        this.publicKey =  loader.getPublicKey();
-        this.privateKey = loader.getPrivateKey();
+        this.publicKey =  publicKey;
+        this.privateKey = privateKey;
     }
 
     @Override

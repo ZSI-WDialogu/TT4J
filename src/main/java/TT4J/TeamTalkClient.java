@@ -27,6 +27,7 @@ public class TeamTalkClient {
     private Event<AddUserPacket> onAddUserPacket = new Event<>();
     private Event<RemoveUserPacket> onRemoveUserPacket = new Event<>();
     private Event<AddChannelPacket> onAddChannelPacket = new Event<>();
+    private Event<RemoveChannelPacket> onRemoveChannelpacket = new Event<>();
     private Event<AcceptedPacket> onAcceptedPacket = new Event<>();
     private Event<ServerUpdatePacket> onServerUpdatePacket = new Event<>();
 
@@ -42,7 +43,6 @@ public class TeamTalkClient {
         this.allUsers = new ArrayList<>();
         this.channels = new ArrayList<>();
         this.loggedUsers = new ArrayList<>();
-        initialiseEvents();
         initialiseHandlers();
     }
 
@@ -134,6 +134,14 @@ public class TeamTalkClient {
         this.onRemoveUserPacket.register(consumer);
     }
 
+    /**
+     * Occurs when channel is removed
+     * @param consumer an eventhandler for onRemoveChannelPacker event
+     */
+    public void registerForRemoveChannelPacket(Consumer<RemoveChannelPacket> consumer){
+        this.onRemoveChannelpacket.register(consumer);
+    }
+
 
     // USER COMMAND REGIONS
 
@@ -155,6 +163,15 @@ public class TeamTalkClient {
      */
     public boolean makeChannel(Channel channel){
         return connection.sendCommand(String.format("makechannel %s", channel));
+    }
+
+    /**
+     * Remove channel from server
+     * @param chanid Id of the channel to be removed
+     * @return true if channel has been removed successfully, false otherwise
+     */
+    public boolean removeChannel(int chanid){
+        return connection.sendCommand(String.format("removechannel chanid=\"%s\"", chanid));
     }
 
     /**
@@ -221,17 +238,6 @@ public class TeamTalkClient {
         return serverInfo;
     }
 
-    // EVENTS
-    private void initialiseEvents() {
-         onHandShakePacket = new Event<>();
-         onErrorPacket = new Event<>();
-         onUserPacket = new Event<>();
-         onAddUserPacket = new Event<>();
-         onRemoveUserPacket = new Event<>();
-         onAddChannelPacket = new Event<>();
-         onAcceptedPacket = new Event<>();
-         onServerUpdatePacket = new Event<>();
-    }
 
     // PACKET HANDLING
     private void initialiseHandlers() {
@@ -242,6 +248,7 @@ public class TeamTalkClient {
         packetHandlers.put(APINetworkPacketType.ADD_USER, this::handleAddUserPacket);
         packetHandlers.put(APINetworkPacketType.REMOVE_USER, this::handleRemoveUserPacket);
         packetHandlers.put(APINetworkPacketType.ADD_CHANNEL, this::handleAddChannelPacket);
+        packetHandlers.put(APINetworkPacketType.REMOVE_CHANNEL, this::handleRemoveChannelPacket);
         packetHandlers.put(APINetworkPacketType.ACCEPTED, this::handleAcceptedPacket);
         packetHandlers.put(APINetworkPacketType.SERVER_UPDATE, this::handleServerUpdatePacket);
     }
@@ -310,6 +317,14 @@ public class TeamTalkClient {
         if(p!=null){
             loggedUsers.removeIf(user -> user.getUserid() == p.getUserid());
             onRemoveUserPacket.invoke(p);
+        }
+    }
+
+    private synchronized void handleRemoveChannelPacket(APINetworkPacket packet) {
+        RemoveChannelPacket p = (RemoveChannelPacket) packet;
+        if(p!=null){
+            channels.removeIf(channel->channel.getChanid() == p.getChanid());
+            onRemoveChannelpacket.invoke(p);
         }
     }
 }

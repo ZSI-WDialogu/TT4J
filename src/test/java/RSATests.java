@@ -43,7 +43,9 @@ public class RSATests {
     public void testRSA() throws Exception {
 
         ConfigurationLoader loader = new ConfigurationLoader("config.properties");
-        RSAHelper rsa = new RSAHelper(loader);
+        RSAHelper rsa = new RSAHelper(
+                loader.getPublicKey(),
+                loader.getPrivateKey());
 
         String rawString =  "{\"User\":{\"Nick\":\"user\",\"Login\":\"user\",\"Password\":\"password\"},\"Channel\":{\"ID\":2,\"Password\":\"test123\"},\"Server\":{\"IP\":\"153.19.141.166\",\"TCPPort\":7077,\"UDPPort\":7077,\"LocalTcpPort\":7077,\"LocalUdpPort\":7077,\"Encrypted\":false}}";
         String encoded = rsa.encrypt(rawString);
@@ -61,7 +63,9 @@ public class RSATests {
     public void testShortRSA() throws Exception {
 
         ConfigurationLoader loader = new ConfigurationLoader("config.properties");
-        RSAHelper rsa = new RSAHelper(loader);
+        RSAHelper rsa = new RSAHelper(
+                loader.getPublicKey(),
+                loader.getPrivateKey());
 
         String rawString =  "Hello!";
         String encoded = rsa.encryptShort(rawString);

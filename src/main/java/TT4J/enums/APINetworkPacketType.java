@@ -15,7 +15,8 @@ public enum APINetworkPacketType {
     OK("ok"),
     ERROR("error"),
     USER_ACCOUNT("useraccount"),
-    REMOVE_USER("removeuser");
+    REMOVE_USER("removeuser"),
+    REMOVE_CHANNEL("removechannel");
 
     private String text;
 

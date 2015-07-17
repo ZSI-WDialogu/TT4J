@@ -76,6 +76,10 @@ public class LinkProvider {
         this.crypto = crypto;
     }
 
+    /**
+     * Register for server updates
+     * @param client TeamTalkClient
+     */
     public void register(TeamTalkClient client) {
         client.registerForServerUpdatePacket(packet -> {
             server = packet;
@@ -83,44 +87,72 @@ public class LinkProvider {
         });
     }
 
+    /**
+     * Add List with user data
+     * @param users
+     */
     public void setUsers(List<UserData> users) {
         this.users = users;
         this.state.setUserAdded(true);
     }
 
+    /**
+     * Add list with all channels
+     * @param channels
+     */
     public void setChannels(List<AddChannelPacket> channels) {
         this.channels = channels;
         this.state.setChannelAdded(true);
     }
 
+    /**
+     * Cheks if LinkProvider has established connection with team talk server, and is ready to generate link
+     * @return
+     */
     public boolean isReady() {
         return state.onReady.hasBeenInvoked();
     }
 
-
-    public String generateActiveLink(String userName, int channelId, int modchannelId) throws Exception {
-        byte[] rawData = getJSONConnectionSetting(userName, channelId, modchannelId).getBytes();
+    /**
+     * This method is used to generate encrypted and obfuscated active link for client instance
+     * @param userName username for which active link is generated
+     * @param channelId id ot the channel on which user will be logged
+     * @param expertChannelId  id of the channel with expert
+     * @return obfuscated active link
+     * @throws Exception
+     */
+    public String generateActiveLink(String userName, int channelId, int expertChannelId) throws Exception {
+        byte[] rawData = getJSONConnectionSetting(userName, channelId, expertChannelId).getBytes();
         return Base64.encodeBase64String(rawData);
     }
 
 
-    public String getEncodedConnectionString(String userName, int channelId, int modchannelId) throws Exception {
-        String activeLink = generateActiveLink(userName, channelId, modchannelId);
+    /**
+     * Once active link has been generated, it has to be stored and later queried by client instance
+     * @param userName username for which active link is generated
+     * @param channelId id ot the channel on which user will be logged
+     * @param expertChannelId  id of the channel with expert
+     * @return obfuscated active link
+     * @return URI used by client instance for REST get queries
+     * @throws Exception
+     */
+    public String getEncodedConnectionString(String userName, int channelId, int expertChannelId) throws Exception {
+        String activeLink = generateActiveLink(userName, channelId, expertChannelId);
         String resourcePath  = linkStore.storeLink(activeLink);
 
         return String.format(PREFIX, resourcePath);
     }
 
-    private String getJSONConnectionSetting(String userName, int channelId, int modchannelId) throws Exception {
+    private String getJSONConnectionSetting(String userName, int channelId, int expertChannelId) throws Exception {
         ExceptionUtil.require(users, "Users");
         ExceptionUtil.require(channels, "Channels");
 
         UserData encryptedUser = encryptUser(userName);
         AddChannelPacket encStartUpChannel = encryptChannel(channelId);
-        AddChannelPacket encModeratorChannel = encryptChannel(modchannelId);
+        AddChannelPacket encExpertChannel = encryptChannel(expertChannelId);
 
         return mapper.writeValueAsString(
-                new ConnectionSettings(encryptedUser, encStartUpChannel, encModeratorChannel, server));
+                new ConnectionSettings(encryptedUser, encStartUpChannel, encExpertChannel, server));
     }
 
     private UserData encryptUser(String userName) throws Exception {

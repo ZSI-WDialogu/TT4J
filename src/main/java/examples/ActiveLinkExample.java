@@ -1,15 +1,16 @@
-package examples.ActiveLink;
+package examples;
 
 import TT4J.TeamTalkClient;
 import TT4J.TeamTalkConnection;
+import TT4J.activeLink.LinkProvider;
+import TT4J.activeLink.RESTStore;
 import TT4J.utils.ConfigurationLoader;
-import TT4J.utils.RESTClient;
 import TT4J.utils.encryption.RSAHelper;
 
 /**
  * Created by Stokowiec on 2015-06-30.
  */
-public class MakeActiveLink {
+public class ActiveLinkExample {
 
     public static void main(String[] args) throws Exception {
 
@@ -30,7 +31,7 @@ public class MakeActiveLink {
         // Set up link provider;
         LinkProvider linkProvider = new LinkProvider(
                 new RSAHelper(cl.getPublicKey(), cl.getPrivateKey()),
-                new RESTClient(cl.getRestHostName(), cl.getRestPort()));
+                new RESTStore(cl.getRestHostName(), cl.getRestPort()));
 
         linkProvider.register(client);
 

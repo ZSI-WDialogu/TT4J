@@ -1,4 +1,4 @@
-import TT4J.utils.RESTClient;
+import TT4J.activeLink.RESTStore;
 import org.junit.Test;
 
 /**
@@ -11,12 +11,12 @@ public class RESTServiceTest {
     @Test
     public void post_and_get_is_working() throws Exception{
 
-        RESTClient client = new RESTClient("http://localhost", 8080);
+        RESTStore client = new RESTStore("http://localhost", 8080);
 
          String text = "bla, bla";
 
-        String id = RESTClient.handleResponse(client.postLink(text)).get(0);
-        String response = RESTClient.handleResponse(client.getLink(id)).get(0);
+        String id = RESTStore.handleResponse(client.postLink(text)).get(0);
+        String response = RESTStore.handleResponse(client.getLink(id)).get(0);
 
         assert(response.equals(text));
     }

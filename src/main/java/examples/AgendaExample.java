@@ -3,10 +3,10 @@ package examples;
 import TT4J.TeamTalkClient;
 import TT4J.TeamTalkConnection;
 import TT4J.utils.ConfigurationLoader;
-import TT4J.utils.RESTClient;
+import TT4J.activeLink.RESTStore;
 import TT4J.utils.StringCompression;
 import TT4J.utils.encryption.RSAHelper;
-import examples.ActiveLink.LinkProvider;
+import TT4J.activeLink.LinkProvider;
 
 import static com.tutego.jrtf.Rtf.rtf;
 import static com.tutego.jrtf.RtfPara.p;
@@ -53,7 +53,7 @@ public class AgendaExample {
         // Set up link provider;
         LinkProvider linkProvider = new LinkProvider(
                 new RSAHelper(cl.getPublicKey(), cl.getPrivateKey()),
-                new RESTClient(cl.getRestHostName(), cl.getRestPort()));
+                new RESTStore(cl.getRestHostName(), cl.getRestPort()));
 
         linkProvider.register(client);
 

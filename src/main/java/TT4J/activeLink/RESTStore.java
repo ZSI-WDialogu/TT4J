@@ -1,6 +1,7 @@
-package TT4J.utils;
+package TT4J.activeLink;
 
 
+import TT4J.interfaces.Store;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
@@ -18,7 +19,7 @@ import java.util.List;
 /**
  * Created by stokowiec on 2015-07-10.
  */
-public class RESTClient {
+public class RESTStore implements Store{
 
     private static final String GET_PATH = "TT4J";
     private static final String POST_PATH = "TT4J/add";
@@ -27,7 +28,7 @@ public class RESTClient {
     private String hostName;
     private int port;
 
-    public RESTClient(String hostName, int port) {
+    public RESTStore(String hostName, int port) {
         this.hostName = hostName;
         this.port = port;
         this.httpClient = HttpClientBuilder.create().build();;
@@ -71,6 +72,15 @@ public class RESTClient {
         }
 
         return output;
+    }
+
+    @Override
+    public String storeLink(String activeLink) throws IOException {
+
+        String uuid = handleResponse(postLink(activeLink)).get(0);
+        String resourcePath = getResourcePath();
+
+        return String.format("%s/%s", resourcePath, uuid);
     }
 }
 

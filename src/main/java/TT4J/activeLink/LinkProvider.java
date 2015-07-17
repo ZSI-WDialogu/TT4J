@@ -1,4 +1,4 @@
-package examples.ActiveLink;
+package TT4J.activeLink;
 
 import TT4J.Event;
 import TT4J.TeamTalkClient;
@@ -8,7 +8,7 @@ import TT4J.packets.ServerUpdatePacket;
 import TT4J.packets.UserData;
 import TT4J.utils.CollectionUtils;
 import TT4J.utils.ExceptionUtil;
-import TT4J.utils.RESTClient;
+import TT4J.interfaces.Store;
 import org.apache.commons.codec.binary.Base64;
 import org.codehaus.jackson.map.ObjectMapper;
 
@@ -20,10 +20,10 @@ import java.util.List;
  */
 public class LinkProvider {
 
-    private final static String PREFIX = "wdialogu://%s/%s";
+    private final static String PREFIX = "wdialogu://%s";
 
+    private Store linkStore;
     private Encrypter crypto;
-    private RESTClient client;
 
     protected class State {
 
@@ -67,8 +67,8 @@ public class LinkProvider {
     private final ObjectMapper mapper;
     private State state;
 
-    public LinkProvider(Encrypter crypto, RESTClient client) {
-        this.client = client;
+    public LinkProvider(Encrypter crypto, Store linkStore) {
+        this.linkStore = linkStore;
         this.mapper = new ObjectMapper();
         this.users = new ArrayList<>();
         this.channels = new ArrayList<>();
@@ -97,14 +97,18 @@ public class LinkProvider {
         return state.onReady.hasBeenInvoked();
     }
 
-    public String getEncodedConnectionString(String userName, int channelId, int modchannelId) throws Exception {
+
+    public String generateActiveLink(String userName, int channelId, int modchannelId) throws Exception {
         byte[] rawData = getJSONConnectionSetting(userName, channelId, modchannelId).getBytes();
+        return Base64.encodeBase64String(rawData);
+    }
 
-        String connectionString = Base64.encodeBase64String(rawData);
-        String uuid = RESTClient.handleResponse(client.postLink(connectionString)).get(0);
-        String resourcePath = client.getResourcePath();
 
-        return String.format(PREFIX, resourcePath, uuid);
+    public String getEncodedConnectionString(String userName, int channelId, int modchannelId) throws Exception {
+        String activeLink = generateActiveLink(userName, channelId, modchannelId);
+        String resourcePath  = linkStore.storeLink(activeLink);
+
+        return String.format(PREFIX, resourcePath);
     }
 
     private String getJSONConnectionSetting(String userName, int channelId, int modchannelId) throws Exception {

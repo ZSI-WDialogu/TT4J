@@ -1,4 +1,4 @@
-package examples.ActiveLink;
+package TT4J.activeLink;
 
 import TT4J.JSON.serializers.AddChannelPacketSerializer;
 import TT4J.JSON.serializers.ServerUpdatePacketSerializer;

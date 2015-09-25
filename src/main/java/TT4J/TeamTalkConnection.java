@@ -1,10 +1,10 @@
 package TT4J;
 
 import TT4J.enums.APINetworkPacketType;
+import TT4J.exceptions.InvalidArgumentException;
 import TT4J.interfaces.APIConnection;
 import TT4J.packets.APINetworkPacket;
 import TT4J.packets.RawPacket;
-import com.sun.javaws.exceptions.InvalidArgumentException;
 
 import java.io.BufferedReader;
 import java.io.IOException;

@@ -1,9 +1,9 @@
 package TT4J;
 
 import TT4J.enums.APINetworkPacketType;
+import TT4J.exceptions.InvalidArgumentException;
 import TT4J.packets.APINetworkPacket;
 import TT4J.packets.RawPacket;
-import com.sun.javaws.exceptions.InvalidArgumentException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.reflections.Reflections;
 
@@ -39,7 +39,7 @@ public class PacketDeserializer {
 
         APINetworkPacketType type = packet.type();
         if(!classes.containsKey(type))
-            throw new InvalidArgumentException(new String[]{"Packet not registered"});
+            throw new InvalidArgumentException("Packet not registered");
 
         String serializedPacket = packet.toString();
 
@@ -47,7 +47,7 @@ public class PacketDeserializer {
         try {
             p = mapper.readValue(serializedPacket, classes.get(type));
         } catch (IOException e) {
-            throw new InvalidArgumentException(new String[]{"Cannot deserialize"});
+            throw new InvalidArgumentException("Cannot deserialize");
         }
         return p;
     }

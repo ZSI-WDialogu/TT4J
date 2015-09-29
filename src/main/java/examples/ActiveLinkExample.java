@@ -15,7 +15,7 @@ public class ActiveLinkExample {
     public static void main(String[] args) throws Exception {
 
         // Load configuration from file
-        ConfigurationLoader cl = new ConfigurationLoader("config.properties");
+        ConfigurationLoader cl = new ConfigurationLoader("example.properties");
 
         // Server connectivity info
         String hostName = cl.getTtHostName();
@@ -35,10 +35,9 @@ public class ActiveLinkExample {
 
         linkProvider.register(client);
 
-        // User info
-        String username = "user";
-        String password = "password";
-        String nick = "Java Admin";
+        String username = "tt";
+        String password = "tt123";
+        String nick = "Admin";
 
         System.out.println("Connecting: " + client.connect());
         System.out.println("Logging: " + client.login(nick, username, password));
@@ -48,13 +47,13 @@ public class ActiveLinkExample {
         linkProvider.setUsers(client.getAllUsersFromServer());
 
         while(!linkProvider.isReady()){
-           Thread.sleep(100);
+            Thread.sleep(100);
         }
 
-        String userName = "a1";
-        int channelID = 1;
-        int moderatorChannelID = 2;
+        String userName = "test_user_1";
+        int channelID = 2;
+        int expertChannelID = 3;
 
-        System.out.println(linkProvider.getEncodedConnectionString(userName, channelID, moderatorChannelID));
+        System.out.println(linkProvider.getEncodedConnectionString(userName, channelID, expertChannelID));
     }
 }

@@ -18,7 +18,7 @@ public class ServerUpdatePacketSerializer extends JsonSerializer<ServerUpdatePac
             throws IOException {
 
         // Load configuration from file
-        ConfigurationLoader cl = new ConfigurationLoader("config.properties");
+        ConfigurationLoader cl = new ConfigurationLoader("example.properties");
 
         jgen.writeStartObject();
         jgen.writeStringField("IP",cl.getTtHostName());

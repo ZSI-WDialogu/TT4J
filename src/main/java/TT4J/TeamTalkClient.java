@@ -153,7 +153,7 @@ public class TeamTalkClient {
      * @return true if login has been successful, false otherwise
      */
     public boolean login(String nick, String username, String password){
-         return connection.sendCommand(String.format("login username=\"%s\" password=\"%s\" protocol=\"5.0\" nickname=\"%s\"", username, password, nick));
+        return connection.sendCommand(String.format("login username=\"%s\" password=\"%s\" protocol=\"5.0\" nickname=\"%s\"", username, password, nick));
     }
 
     /**
@@ -191,6 +191,15 @@ public class TeamTalkClient {
      */
     public boolean addUser(UserData user){
         return connection.sendCommand(String.format("newaccount %s", user));
+    }
+
+    /**
+     * Remove user
+     * @param login login to be deleted
+     * @return true if user has been removed successfully, false otherwise
+     */
+    public boolean removeUser(String login){
+        return connection.sendCommand(String.format("delaccount username=\"%s\"", login));
     }
 
     /**

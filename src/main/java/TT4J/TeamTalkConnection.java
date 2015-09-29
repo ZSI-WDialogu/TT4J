@@ -60,9 +60,10 @@ public class TeamTalkConnection implements APIConnection {
     private int cmdId;
     private boolean isConnected;
 
+    private Socket socket;
     private PrintWriter out;
-    private BufferedReader in;
 
+    private BufferedReader in;
     private Event<APINetworkPacket> packetReceived;
     private PacketDeserializer deserializer;
 
@@ -85,7 +86,7 @@ public class TeamTalkConnection implements APIConnection {
         if (!isConnected) {
             try {
 
-                Socket socket = new Socket(hostName, portNumber);
+                socket = new Socket(hostName, portNumber);
                 out = new PrintWriter(socket.getOutputStream(), true);
                 in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 isConnected = true;
@@ -116,6 +117,15 @@ public class TeamTalkConnection implements APIConnection {
                 e.printStackTrace();
             }
         }
+
+        if(socket!=null){
+            try {
+                socket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        isConnected = false;
     }
 
     /**

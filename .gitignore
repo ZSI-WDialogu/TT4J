@@ -50,3 +50,5 @@ target/
 
 # Ignore DB
 *.db
+
+src/main/resources/keys

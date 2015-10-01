@@ -4,6 +4,7 @@ import TT4J.TeamTalkClient;
 import TT4J.TeamTalkConnection;
 import TT4J.activeLink.LinkProvider;
 import TT4J.activeLink.RESTStore;
+import TT4J.activeLink.ServerInfo;
 import TT4J.utils.ConfigurationLoader;
 import TT4J.utils.encryption.RSAHelper;
 
@@ -31,7 +32,8 @@ public class ActiveLinkExample {
         // Set up link provider;
         LinkProvider linkProvider = new LinkProvider(
                 new RSAHelper(cl.getPublicKey(), cl.getPrivateKey()),
-                new RESTStore(cl.getRestHostName(), cl.getRestPort()));
+                new RESTStore(cl.getRestHostName(), cl.getRestPort()),
+                new ServerInfo(hostName, port, cl.isTtEncrypted()));
 
         linkProvider.register(client);
 

@@ -17,16 +17,14 @@ public class ServerUpdatePacketSerializer extends JsonSerializer<ServerUpdatePac
     public void serialize(ServerUpdatePacket value, JsonGenerator jgen, SerializerProvider provider)
             throws IOException {
 
-        // Load configuration from file
-        ConfigurationLoader cl = new ConfigurationLoader("example.properties");
 
         jgen.writeStartObject();
-        jgen.writeStringField("IP",cl.getTtHostName());
+        jgen.writeStringField("IP",value.getTtHostName());
         jgen.writeNumberField("TCPPort", value.getTcpport());
         jgen.writeNumberField("UDPPort", value.getUdpport());
         jgen.writeNumberField("LocalTcpPort", value.getTcpport());
         jgen.writeNumberField("LocalUdpPort", value.getUdpport());
-        jgen.writeBooleanField("Encrypted", cl.isTtEncrypted());
+        jgen.writeBooleanField("Encrypted", value.isTtEncrypted());
 
         jgen.writeEndObject();
 

@@ -24,6 +24,7 @@ public class LinkProvider {
 
     private Store linkStore;
     private Encrypter crypto;
+    private final ServerInfo serverInfo;
 
     protected class State {
 
@@ -67,8 +68,9 @@ public class LinkProvider {
     private final ObjectMapper mapper;
     private State state;
 
-    public LinkProvider(Encrypter crypto, Store linkStore) {
+    public LinkProvider(Encrypter crypto, Store linkStore, ServerInfo serverInfo) {
         this.linkStore = linkStore;
+        this.serverInfo = serverInfo;
         this.mapper = new ObjectMapper();
         this.users = new ArrayList<>();
         this.channels = new ArrayList<>();
@@ -151,6 +153,8 @@ public class LinkProvider {
         AddChannelPacket encStartUpChannel = encryptChannel(channelId);
         AddChannelPacket encExpertChannel = encryptChannel(expertChannelId);
 
+        server.setTtEncrypted(serverInfo.isEncrypted());
+        server.setTtHostName(serverInfo.getHostName());
         return mapper.writeValueAsString(
                 new ConnectionSettings(encryptedUser, encStartUpChannel, encExpertChannel, server));
     }

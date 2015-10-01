@@ -31,6 +31,8 @@ public class ServerUpdatePacket extends  APINetworkPacket {
 
     // Server information
     private String version;
+    private String ttHostName;
+    private boolean ttEncrypted;
 
     public ServerUpdatePacket() {
         super(APINetworkPacketType.SERVER_UPDATE);
@@ -167,5 +169,21 @@ public class ServerUpdatePacket extends  APINetworkPacket {
 
     public void setVersion(String version) {
         this.version = version;
+    }
+
+    public String getTtHostName() {
+        return this.ttHostName;
+    }
+
+    public void setTtHostName(String ttHostName) {
+        this.ttHostName = ttHostName;
+    }
+
+    public boolean isTtEncrypted() {
+        return ttEncrypted;
+    }
+
+    public void setTtEncrypted(boolean ttEncrypted) {
+        this.ttEncrypted = ttEncrypted;
     }
 }

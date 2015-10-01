@@ -60,6 +60,13 @@ public class TeamTalkClient {
      */
     public void close() {
         connection.disconnect();
+        clearCollections();
+    }
+
+    private void clearCollections() {
+        allUsers.clear();
+        loggedUsers.clear();
+        channels.clear();
     }
 
     // REGISTER FOR EVENTS

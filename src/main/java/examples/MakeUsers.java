@@ -32,7 +32,7 @@ public class MakeUsers {
         // How to create new user
         for(int i =0; i < 20; i++) {
             client.addUser(
-                    new UserData("New java user " + i, "123", UserType.DEFAULT, "new user", "1", UserRight.getDefaultRights()));
+                    new UserData("New java user " + i, "Java user nick", "123", UserType.DEFAULT, "new user", "1", UserRight.getDefaultRights()));
         }
     }
 }

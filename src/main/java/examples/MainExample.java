@@ -46,7 +46,7 @@ public class MainExample {
 
             // How to create new user
             client.addUser(
-                new UserData("New java user 4", "123", UserType.DEFAULT, "new user", "1", UserRight.getDefaultRights()));
+                new UserData("New java user 4", "Nick", "123", UserType.DEFAULT, "new user", "1", UserRight.getDefaultRights()));
 
             // How to send message: it can be used to update meeting agenda
             client.sendMessage(1, "It's a Me: a message!");

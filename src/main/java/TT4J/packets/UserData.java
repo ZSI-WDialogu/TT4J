@@ -19,14 +19,16 @@ public class UserData extends APINetworkPacket {
     private int userdata;
     private UserType usertype;
     private List<Integer> opchannels;
+    private String nick;
 
     public UserData() {
         super(APINetworkPacketType.USER_ACCOUNT);
     }
-    public UserData(String username, String password, UserType usertype, String note, String initchan, int userrights){
+    public UserData(String username, String nick, String password, UserType usertype, String note, String initchan, int userrights){
         this();
 
         this.username = username;
+        this.nick = nick;
         this.password = password;
         this.usertype = usertype;
         this.note = note;
@@ -117,5 +119,13 @@ public class UserData extends APINetworkPacket {
 
     public void setOpchannels(List<Integer> opchannels) {
         this.opchannels = opchannels;
+    }
+
+    public String getNick() {
+        return nick;
+    }
+
+    public void setNick(String nick) {
+        this.nick = nick;
     }
 }

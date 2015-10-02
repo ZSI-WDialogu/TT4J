@@ -40,7 +40,7 @@ public class UserRightTest {
             // Add
             getRights().forEach( (name, value) -> {
                 System.out.println(String.format("Name: %s, value: %s", name, value));
-                client.addUser(new UserData(name, name, UserType.DEFAULT, "rights test", "1", value));
+                client.addUser(new UserData(name, "Nick", name, UserType.DEFAULT, "rights test", "1", value));
             });
 
         } catch (IllegalAccessException e) {

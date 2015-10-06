@@ -49,7 +49,7 @@ public class ChannelExample {
         client.getChannels().forEach(System.out::println);
 
         // Add new channel
-        client.makeChannel(new Channel(1, true, "Channel to be deleted", "123", "Java docs", AudioCodec.SpeexVBR));
+        client.makeChannel(new Channel(1, true, true,"Channel to be deleted", "123", "Java docs", AudioCodec.SpeexVBR));
 
         // Display all channels before adding channel
         System.out.println("After adding channel: ");

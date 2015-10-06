@@ -74,7 +74,7 @@ public class MainExample {
             client.getLoggedUsers().forEach(System.out::println);
 
             // Hot to make new channel
-            client.makeChannel(new Channel(1, true, "api channel 5", "123", "Java docs", AudioCodec.SpeexVBR));
+            client.makeChannel(new Channel(1, true, true, "api channel 5", "123", "Java docs", AudioCodec.SpeexVBR));
             client.close();
 
 	}

@@ -7,6 +7,7 @@ import TT4J.enums.AudioCodec;
  */
 public class Channel {
 
+    private final boolean isClassroom;
     private int channelID;
     private int parentID;
     private boolean isPermanent;
@@ -15,9 +16,10 @@ public class Channel {
     private String topic;
     private AudioCodec audioCodec;
 
-    public Channel(int parentID, boolean isPermanent, String name, String password, String topic, AudioCodec audioCodec) {
+    public Channel(int parentID, boolean isPermanent, boolean isClassroom, String name, String password, String topic, AudioCodec audioCodec) {
         this.parentID = parentID;
         this.isPermanent = isPermanent;
+        this.isClassroom = isClassroom;
         this.name = name;
         this.password = password;
         this.topic = topic;

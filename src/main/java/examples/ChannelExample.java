@@ -4,6 +4,7 @@ import TT4J.Channel;
 import TT4J.TeamTalkClient;
 import TT4J.TeamTalkConnection;
 import TT4J.enums.AudioCodec;
+import TT4J.enums.ChannelType;
 import TT4J.utils.ConfigurationLoader;
 
 import java.util.ArrayList;
@@ -49,7 +50,7 @@ public class ChannelExample {
         client.getChannels().forEach(System.out::println);
 
         // Add new channel
-        client.makeChannel(new Channel(1, true, true,"Channel to be deleted", "123", "Java docs", AudioCodec.SpeexVBR));
+        client.makeChannel(new Channel(1, ChannelType.getDefaults(),"Channel to be deleted", "123", "Java docs", AudioCodec.SpeexVBR));
 
         // Display all channels before adding channel
         System.out.println("After adding channel: ");

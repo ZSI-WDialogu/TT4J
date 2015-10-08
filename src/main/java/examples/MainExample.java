@@ -4,6 +4,7 @@ import TT4J.Channel;
 import TT4J.TeamTalkClient;
 import TT4J.TeamTalkConnection;
 import TT4J.enums.AudioCodec;
+import TT4J.enums.ChannelType;
 import TT4J.enums.UserRight;
 import TT4J.enums.UserType;
 import TT4J.packets.AddUserPacket;
@@ -74,7 +75,7 @@ public class MainExample {
             client.getLoggedUsers().forEach(System.out::println);
 
             // Hot to make new channel
-            client.makeChannel(new Channel(1, true, true, "api channel 5", "123", "Java docs", AudioCodec.SpeexVBR));
+            client.makeChannel(new Channel(1, ChannelType.getDefaults(), "api channel 5", "123", "Java docs", AudioCodec.SpeexVBR));
             client.close();
 
 	}

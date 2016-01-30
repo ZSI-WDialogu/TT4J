@@ -8,6 +8,13 @@
     <artifactId>core</artifactId>
     <version>1.1-SNAPSHOT</version>
 
+    <distributionManagement>
+        <snapshotRepository>
+            <id>wdialogu</id>
+            <url>http://dialog.ii.pw.edu.pl/nexus/content/repositories/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
+
     <repositories>
         <repository>
             <id>codehaus</id>
@@ -24,6 +31,32 @@
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>1.6.3</version>
+                <executions>
+                    <execution>
+                        <id>default-deploy</id>
+                        <phase>deploy</phase>
+                        <goals>
+                            <goal>deploy</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <serverId>wdialogu</serverId>
+                    <nexusUrl>http://dialog.ii.pw.edu.pl/nexus/</nexusUrl>
+                    <skipStaging>true</skipStaging>
                 </configuration>
             </plugin>
         </plugins>

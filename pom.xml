@@ -28,6 +28,10 @@
 
     <repositories>
         <repository>
+            <id>wdialogu</id>
+            <url>http://dialog.ii.pw.edu.pl/nexus/content/repositories/releases</url>
+        </repository>
+        <repository>
             <id>codehaus</id>
             <url>http://repository.codehaus.org/org/codehaus</url>
         </repository>
@@ -73,7 +77,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
-                <version>2.4.2</version>
+                <version>2.5.3</version>
                 <configuration>
                     <tagNameFormat>v@{project.version}</tagNameFormat>
                     <autoVersionSubmodules>true</autoVersionSubmodules>

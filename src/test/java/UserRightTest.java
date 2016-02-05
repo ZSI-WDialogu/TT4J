@@ -19,7 +19,7 @@ public class UserRightTest {
     public static void main(String[] args) throws IOException {
 
         // Load configuration from file
-        ConfigurationLoader conf = new ConfigurationLoader("config.properties");
+        ConfigurationLoader conf = new ConfigurationLoader("example.properties");
 
         // Server info
         String hostName = conf.getTtHostName();

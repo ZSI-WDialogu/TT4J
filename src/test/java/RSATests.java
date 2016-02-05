@@ -16,10 +16,10 @@ import java.security.PublicKey;
  */
 public class RSATests {
 
-    private static final String PUBLIC = "public.key";
-    private static final String PRIVATE = "private.key";
+    private static final String PUBLIC = "keys/public.key";
+    private static final String PRIVATE = "keys/private.key";
 
-    @Test
+
     public void readWrite() throws Exception{
 
         KeyPairGenerator kpg = KeyPairGenerator.getInstance("RSA");
@@ -42,7 +42,7 @@ public class RSATests {
     @Test
     public void testRSA() throws Exception {
 
-        ConfigurationLoader loader = new ConfigurationLoader("config.properties");
+        ConfigurationLoader loader = new ConfigurationLoader("example.properties");
         RSAHelper rsa = new RSAHelper(
                 loader.getPublicKey(),
                 loader.getPrivateKey());
@@ -62,7 +62,7 @@ public class RSATests {
     @Test
     public void testShortRSA() throws Exception {
 
-        ConfigurationLoader loader = new ConfigurationLoader("config.properties");
+        ConfigurationLoader loader = new ConfigurationLoader("example.properties");
         RSAHelper rsa = new RSAHelper(
                 loader.getPublicKey(),
                 loader.getPrivateKey());

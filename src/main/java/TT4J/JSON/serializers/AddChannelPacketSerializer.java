@@ -17,6 +17,7 @@ public class AddChannelPacketSerializer  extends JsonSerializer<AddChannelPacket
         jgen.writeStartObject();
         jgen.writeNumberField("ID", value.getChanid());
         jgen.writeStringField("Password", value.getPassword());
+        jgen.writeStringField("Agenda", value.getAgenda());
         jgen.writeEndObject();
     }
 }

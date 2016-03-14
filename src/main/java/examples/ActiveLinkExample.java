@@ -52,10 +52,12 @@ public class ActiveLinkExample {
             Thread.sleep(100);
         }
 
+        String userNickName = "test_user_nick";
         String userName = "test_user_1";
         int channelID = 2;
         int expertChannelID = 3;
+        String agenda = "agenda";
 
-        System.out.println(linkProvider.getEncodedConnectionString(userName, channelID, expertChannelID));
+        System.out.println(linkProvider.getEncodedConnectionString(userNickName, userName, channelID, expertChannelID, agenda));
     }
 }

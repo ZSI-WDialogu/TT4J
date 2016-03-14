@@ -25,15 +25,23 @@ public class AddChannelPacket extends APINetworkPacket{
     private int[] audiocfg;
     private int[] operators;
     private int userdata;
-
     //Classroom data
     private int[] voiceusers;
+
     private int[] videousers;
     private int[] desktopusers;
     private int[] mediafileusers;
+    private String agenda;
 
     public AddChannelPacket() {
         super(APINetworkPacketType.ADD_CHANNEL);
+    }
+
+    public AddChannelPacket(int ID, String password, String agenda){
+        this();
+        this.chanid = ID;
+        this.password = password;
+        this.agenda = agenda;
     }
 
     public AddChannelPacket(int ID, String password){
@@ -199,5 +207,13 @@ public class AddChannelPacket extends APINetworkPacket{
 
     public void setMediafileusers(int[] mediafileusers) {
         this.mediafileusers = mediafileusers;
+    }
+
+    public String getAgenda() {
+        return agenda;
+    }
+
+    public void setAgenda(String agenda) {
+        this.agenda = agenda;
     }
 }

@@ -123,8 +123,8 @@ public class LinkProvider {
      * @return obfuscated active link
      * @throws Exception
      */
-    public String generateActiveLink(String userName, int channelId, int expertChannelId) throws Exception {
-        byte[] rawData = getJSONConnectionSetting(userName, channelId, expertChannelId).getBytes();
+    public String generateActiveLink(String nick, String userName, int channelId, int expertChannelId, String agenda) throws Exception {
+        byte[] rawData = getJSONConnectionSetting(nick, userName, channelId, expertChannelId, agenda).getBytes();
         return Base64.encodeBase64String(rawData);
     }
 
@@ -138,19 +138,19 @@ public class LinkProvider {
      * @return URI used by client instance for REST get queries
      * @throws Exception
      */
-    public String getEncodedConnectionString(String userName, int channelId, int expertChannelId) throws Exception {
-        String activeLink = generateActiveLink(userName, channelId, expertChannelId);
+    public String getEncodedConnectionString(String nick, String userName, int channelId, int expertChannelId, String agenda) throws Exception {
+        String activeLink = generateActiveLink(nick, userName, channelId, expertChannelId, agenda);
         String resourcePath  = linkStore.storeLink(activeLink);
 
         return String.format(PREFIX, resourcePath);
     }
 
-    private String getJSONConnectionSetting(String userName, int channelId, int expertChannelId) throws Exception {
+    private String getJSONConnectionSetting(String nick, String userName, int channelId, int expertChannelId, String agenda) throws Exception {
         ExceptionUtil.require(users, "Users");
         ExceptionUtil.require(channels, "Channels");
 
-        UserData encryptedUser = encryptUser(userName);
-        AddChannelPacket encStartUpChannel = encryptChannel(channelId);
+        UserData encryptedUser = encryptUser(nick, userName);
+        AddChannelPacket encStartUpChannel = encryptChannel(channelId, agenda);
         AddChannelPacket encExpertChannel = encryptChannel(expertChannelId);
 
         server.setTtEncrypted(serverInfo.isEncrypted());
@@ -159,10 +159,17 @@ public class LinkProvider {
                 new ConnectionSettings(encryptedUser, encStartUpChannel, encExpertChannel, server));
     }
 
-    private UserData encryptUser(String userName) throws Exception {
+    private UserData encryptUser(String nick, String userName) throws Exception {
         UserData originalUser = CollectionUtils.getFirst(users, u -> u.getUsername().equals(userName));
-        return new UserData(originalUser.getUsername(),
+        return new UserData(nick, originalUser.getUsername(),
                 crypto.encryptShort(originalUser.getPassword()) );
+    }
+
+    private AddChannelPacket encryptChannel(int channelId, String agenda) throws Exception {
+        AddChannelPacket originalChannel = CollectionUtils.getFirst(channels, c -> c.getChanid() == channelId);
+        return new AddChannelPacket(originalChannel.getChanid(),
+                crypto.encryptShort(originalChannel.getPassword()),
+                agenda);
     }
 
     private AddChannelPacket encryptChannel(int channelId) throws Exception {

@@ -37,8 +37,9 @@ public class UserData extends APINetworkPacket {
     }
 
     // Copy constructor
-    public UserData(String username, String password){
+    public UserData(String nick, String username, String password){
         this();
+        this.nick = nick;
         this.username = username;
         this.password = password;
     }

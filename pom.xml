@@ -4,7 +4,7 @@
 
     <groupId>TT4J-wdialogu</groupId>
     <artifactId>core</artifactId>
-    <version>1.4</version>
+    <version>1.5-SNAPSHOT</version>
 
     <distributionManagement>
         <repository>
@@ -20,7 +20,7 @@
         <connection>scm:git:https://github.com/ZSI-WDialogu/TT4J.git</connection>
         <url>https://github.com/ZSI-WDialogu/TT4J</url>
         <developerConnection>scm:git:https://github.com/ZSI-WDialogu/TT4J.git</developerConnection>
-    <tag>v1.4</tag>
+    <tag>HEAD</tag>
   </scm>
 
     <properties>

@@ -2,6 +2,7 @@ package examples;
 
 import TT4J.TeamTalkClient;
 import TT4J.TeamTalkConnection;
+import TT4J.activeLink.ActiveLinkData;
 import TT4J.activeLink.LinkProvider;
 import TT4J.activeLink.RESTStore;
 import TT4J.activeLink.ServerInfo;
@@ -52,12 +53,13 @@ public class ActiveLinkExample {
             Thread.sleep(100);
         }
 
-        String userNickName = "test_user_nick";
-        String userName = "test_user_1";
-        int channelID = 2;
-        int expertChannelID = 3;
-        String agenda = "agenda";
+        ActiveLinkData activeLinkData = new ActiveLinkData();
+        activeLinkData.setUserName("test_user_1");
+        activeLinkData.setNick("test_user_nick");
+        activeLinkData.setChannelId(2);
+        activeLinkData.setExpertChannelId(3);
+        activeLinkData.setAgenda("agenda");
 
-        System.out.println(linkProvider.getEncodedConnectionString(userNickName, userName, channelID, expertChannelID, agenda));
+        System.out.println(linkProvider.getEncodedConnectionString(activeLinkData));
     }
 }

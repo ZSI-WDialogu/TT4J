@@ -157,8 +157,8 @@ public class LinkProvider {
         );
         AddChannelPacket encExpertChannel = encryptChannel(
                 activeLinkData.getExpertChannelId(),
-                activeLinkData.getStartDate(),
-                activeLinkData.getEndDate()
+                activeLinkData.getStartExpertsPanelDate(),
+                activeLinkData.getEndExpertsPanelDate()
         );
 
         server.setTtEncrypted(serverInfo.isEncrypted());

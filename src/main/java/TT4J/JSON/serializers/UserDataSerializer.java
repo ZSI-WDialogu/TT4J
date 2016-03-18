@@ -20,6 +20,8 @@ public class UserDataSerializer extends JsonSerializer<UserData> {
         jgen.writeStringField("Nick", value.getNick());
         jgen.writeStringField("Login", value.getUsername());
         jgen.writeStringField("Password", value.getPassword());
+        jgen.writeBooleanField("Expert", value.getExpert());
+        jgen.writeBooleanField("DebateWithExpertsPanel", value.getDebateWithExpertsPanel());
         jgen.writeEndObject();
     }
 }

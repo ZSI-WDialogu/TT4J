@@ -10,6 +10,8 @@ import org.codehaus.jackson.map.annotate.JsonDeserialize;
  */
 public class AddChannelPacket extends APINetworkPacket{
 
+    private String endDate;
+    private String startDate;
     private String channel;
     private String oppassword;
     private String password;
@@ -37,17 +39,21 @@ public class AddChannelPacket extends APINetworkPacket{
         super(APINetworkPacketType.ADD_CHANNEL);
     }
 
-    public AddChannelPacket(int ID, String password, String agenda){
+    public AddChannelPacket(int ID, String password, String startDate, String endDate, String agenda){
         this();
         this.chanid = ID;
         this.password = password;
+        this.startDate = startDate;
+        this.endDate = endDate;
         this.agenda = agenda;
     }
 
-    public AddChannelPacket(int ID, String password){
+    public AddChannelPacket(int ID, String password, String startDate, String endDate){
         this();
         this.chanid = ID;
         this.password = password;
+        this.startDate = startDate;
+        this.endDate = endDate;
     }
 
     @Override
@@ -215,5 +221,21 @@ public class AddChannelPacket extends APINetworkPacket{
 
     public void setAgenda(String agenda) {
         this.agenda = agenda;
+    }
+
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
+
+    public String getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
     }
 }

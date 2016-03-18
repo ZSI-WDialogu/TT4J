@@ -10,6 +10,8 @@ import java.util.List;
  */
 public class UserData extends APINetworkPacket {
 
+    private Boolean debateWithExpertsPanel;
+    private Boolean expert;
     private String username;
     private String password;
     private String initchan;
@@ -37,11 +39,13 @@ public class UserData extends APINetworkPacket {
     }
 
     // Copy constructor
-    public UserData(String nick, String username, String password){
+    public UserData(String nick, String username, String password, Boolean expert, Boolean debateWithExpertsPanel){
         this();
         this.nick = nick;
         this.username = username;
         this.password = password;
+        this.expert = expert;
+        this.debateWithExpertsPanel = debateWithExpertsPanel;
     }
 
     @Override
@@ -128,5 +132,21 @@ public class UserData extends APINetworkPacket {
 
     public void setNick(String nick) {
         this.nick = nick;
+    }
+
+    public Boolean getExpert() {
+        return expert;
+    }
+
+    public void setExpert(Boolean expert) {
+        this.expert = expert;
+    }
+
+    public Boolean getDebateWithExpertsPanel() {
+        return debateWithExpertsPanel;
+    }
+
+    public void setDebateWithExpertsPanel(Boolean debateWithExpertsPanel) {
+        this.debateWithExpertsPanel = debateWithExpertsPanel;
     }
 }

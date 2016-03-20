@@ -13,6 +13,7 @@ import org.apache.commons.codec.binary.Base64;
 import org.codehaus.jackson.map.ObjectMapper;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -155,10 +156,12 @@ public class LinkProvider {
                 activeLinkData.getEndDate(),
                 activeLinkData.getAgenda()
         );
-        AddChannelPacket encExpertChannel = encryptChannel(
+        AddChannelPacket encExpertChannel = encryptModeratorChannel(
                 activeLinkData.getExpertChannelId(),
                 activeLinkData.getStartExpertsPanelDate(),
-                activeLinkData.getEndExpertsPanelDate()
+                activeLinkData.getEndExpertsPanelDate(),
+                activeLinkData.getExpertLogins(),
+                activeLinkData.getExpertPanelModeratorLogin()
         );
 
         server.setTtEncrypted(serverInfo.isEncrypted());
@@ -180,11 +183,11 @@ public class LinkProvider {
                 agenda);
     }
 
-    private AddChannelPacket encryptChannel(int channelId, String startDate, String endDate) throws Exception {
+    private AddChannelPacket encryptModeratorChannel(int channelId, String startDate, String endDate, List<String> expertLogins, String expertsPanelModeratorLogin) throws Exception {
         AddChannelPacket originalChannel = CollectionUtils.getFirst(channels, c -> c.getChanid() == channelId);
         return new AddChannelPacket(originalChannel.getChanid(),
                 crypto.encryptShort(originalChannel.getPassword()),
-                startDate, endDate);
+                startDate, endDate, expertLogins, expertsPanelModeratorLogin);
     }
 }
 

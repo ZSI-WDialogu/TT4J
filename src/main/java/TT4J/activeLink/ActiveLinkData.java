@@ -1,5 +1,7 @@
 package TT4J.activeLink;
 
+import java.util.List;
+
 public class ActiveLinkData {
     public static final String ACTIVE_LINK_DATE_FORMAT = "dd.MM.yyyy HH:mm";
     private String nick;
@@ -13,6 +15,8 @@ public class ActiveLinkData {
     private String endExpertsPanelDate;
     private String startDate;
     private String endDate;
+    private List<String> expertLogins;
+    private String expertPanelModeratorLogin;
 
     public String getNick() {
         return nick;
@@ -105,5 +109,21 @@ public class ActiveLinkData {
 
     public String getEndDate() {
         return endDate;
+    }
+
+    public void setExpertLogins(List<String> expertLogins) {
+        this.expertLogins = expertLogins;
+    }
+
+    public List<String> getExpertLogins() {
+        return expertLogins;
+    }
+
+    public void setExpertPanelModeratorLogin(String expertPanelModeratorLogin) {
+        this.expertPanelModeratorLogin = expertPanelModeratorLogin;
+    }
+
+    public String getExpertPanelModeratorLogin() {
+        return expertPanelModeratorLogin;
     }
 }

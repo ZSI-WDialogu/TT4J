@@ -5,11 +5,16 @@ import TT4J.enums.APINetworkPacketType;
 import TT4J.enums.AudioCodec;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by stokowiec on 2015-06-19.
  */
 public class AddChannelPacket extends APINetworkPacket{
 
+    private String expertsPanelModerator;
+    private List<String> expertLogins = new ArrayList<>();
     private String endDate;
     private String startDate;
     private String channel;
@@ -48,12 +53,14 @@ public class AddChannelPacket extends APINetworkPacket{
         this.agenda = agenda;
     }
 
-    public AddChannelPacket(int ID, String password, String startDate, String endDate){
+    public AddChannelPacket(int ID, String password, String startDate, String endDate, List<String> expertLogins, String expertsPanelModerator){
         this();
         this.chanid = ID;
         this.password = password;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.expertLogins = expertLogins;
+        this.expertsPanelModerator = expertsPanelModerator;
     }
 
     @Override
@@ -237,5 +244,21 @@ public class AddChannelPacket extends APINetworkPacket{
 
     public void setEndDate(String endDate) {
         this.endDate = endDate;
+    }
+
+    public List<String> getExpertLogins() {
+        return expertLogins;
+    }
+
+    public void setExpertLogins(List<String> expertLogins) {
+        this.expertLogins = expertLogins;
+    }
+
+    public String getExpertsPanelModerator() {
+        return expertsPanelModerator;
+    }
+
+    public void setExpertsPanelModerator(String expertsPanelModerator) {
+        this.expertsPanelModerator = expertsPanelModerator;
     }
 }

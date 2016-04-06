@@ -22,8 +22,10 @@ public class AddChannelPacketSerializer  extends JsonSerializer<AddChannelPacket
         jgen.writeStringField("EndDate", value.getEndDate());
         jgen.writeStringField("ExpertsPanelModeratorLogin", value.getExpertsPanelModerator());
         jgen.writeArrayFieldStart("ExpertLogins");
-        for (String expertLogin : value.getExpertLogins()){
-            jgen.writeString(expertLogin);
+        if(value.getExpertLogins() != null){
+            for (String expertLogin : value.getExpertLogins()){
+                jgen.writeString(expertLogin);
+            }
         }
         jgen.writeEndArray();
         jgen.writeEndObject();
